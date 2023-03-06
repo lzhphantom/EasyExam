@@ -62,7 +62,7 @@ public class BaseEntity {
     @PrePersist
     // 预处理 创建时间，更新时间，创建人员id，更新人员id
     public void prePersist() {
-        if (Objects.isNull(getIsSagaInProgress())) {
+        if (Objects.isNull(this.isSagaInProgress)) {
             isSagaInProgress = Boolean.FALSE;
         }
         status = action.getStatus();

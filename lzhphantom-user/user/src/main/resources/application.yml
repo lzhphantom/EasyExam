@@ -1,0 +1,42 @@
+spring:
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        username: root
+        password: 123456
+        url: jdbc:mysql://192.168.1.89:3306/lzhphantom_math_user?useSSL=false&serverTimezone=UTC
+    jpa:
+        show-sql: true
+        hibernate:
+            ddl-auto: update
+    application:
+        name: lzphantom_user
+    data:
+        redis:
+#            database: 0
+#            cluster:
+#                nodes:
+#                    - 192.168.1.89:6381
+#                    - 192.168.1.89:6382
+#                    - 192.168.1.89:6383
+#                    - 192.168.1.89:6384
+#                    - 192.168.1.89:6385
+#            timeout: 5000
+#            lettuce:
+#                pool:
+#                    enabled: true
+#                    max-active: 100
+#                    max-idle: 10
+#                    max-wait: 100
+            username: abc123
+            password: abc123
+            host: 192.168.1.89
+            port: 6381
+server:
+    port: 10010
+eureka:
+    client:
+        service-url:
+            defaultZone: http://localhost:10100/eureka
+    instance:
+        instance-id: ${spring.application.name}:${server.port}
+        hostname: localhost
