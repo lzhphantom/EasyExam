@@ -1,0 +1,28 @@
+server:
+    port: 8080
+spring:
+    main:
+        web-application-type: reactive
+    application:
+        name: lzhphantom-gateway
+    cloud:
+      gateway:
+          routes:
+              - id: lzhphantom-user
+                uri: lb://lzhphantom-user
+#                uri: http://localhost:10010
+                predicates:
+                # Path Route Predicate Factory ????? /lzhphantom/user/** ??????????? http://localhost:10010 ??uri?
+                  - Path=/lzhphantom/user/**
+                  # Weight Route Predicate Factory ???????????????????????80%
+                    # ???group1?????????????
+                  - Weight=group1, 8
+                filters:
+                  - StripPrefix=2 # StripPrefix????????????1?????/lzhphantom
+eureka:
+    client:
+        service-url:
+            defaultZone: http://localhost:10100/eureka
+    instance:
+        instance-id: ${spring.application.name}:${server.port}
+        hostname: localhost
