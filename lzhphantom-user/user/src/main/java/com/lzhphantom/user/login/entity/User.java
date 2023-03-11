@@ -17,7 +17,7 @@ import java.util.Collection;
 @Accessors(chain = true)
 @Audited
 @EqualsAndHashCode(callSuper = true)
-public class User extends BaseEntity implements UserDetails{
+public class User extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -34,28 +34,4 @@ public class User extends BaseEntity implements UserDetails{
     @Column(name = "phone", nullable = false)
     private String phone;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
-    }
 }

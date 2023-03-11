@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="Encoding">
+  <component name="Encoding" native2AsciiForPropertiesFiles="true" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://$PROJECT_DIR$/lzhphantom-common-security/security/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lzhphantom-common-swagger/swagger/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/lzhphantom-core/core/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/lzhphantom-core/core/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/lzhphantom-eureka/eureka/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/lzhphantom-gateway/gateway/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/lzhphantom-gateway/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/lzhphantom-gateway/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/lzhphantom-parent/parent/lzhphantom-eureka/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/lzhphantom-parent/parent/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/lzhphantom-parent/parent/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/lzhphantom-user/user/src/main/java" charset="UTF-8" />
   </component>
 </project>
