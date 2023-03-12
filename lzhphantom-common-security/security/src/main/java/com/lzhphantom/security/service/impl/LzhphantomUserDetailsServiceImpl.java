@@ -4,6 +4,8 @@ import com.lzhphantom.core.common.util.LzhphantomResult;
 import com.lzhphantom.core.constant.CacheConstants;
 import com.lzhphantom.security.service.LzhphantomUser;
 import com.lzhphantom.security.service.LzhphantomUserDetailsService;
+import com.lzhphantom.user.dto.UserInfo;
+import com.lzhphantom.user.feign.RemoteUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;

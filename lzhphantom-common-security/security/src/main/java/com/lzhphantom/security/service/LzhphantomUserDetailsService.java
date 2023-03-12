@@ -6,6 +6,8 @@ import com.lzhphantom.core.common.util.LzhphantomResult;
 import com.lzhphantom.core.common.util.RetOps;
 import com.lzhphantom.core.constant.CommonConstants;
 import com.lzhphantom.core.constant.SecurityConstants;
+import com.lzhphantom.user.dto.UserInfo;
+import com.lzhphantom.user.login.entity.User;
 import org.glassfish.jersey.internal.guava.Sets;
 import org.springframework.core.Ordered;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,6 +26,7 @@ import java.util.Set;
 public interface LzhphantomUserDetailsService extends UserDetailsService, Ordered {
     /**
      * 是否支持此客户端校验
+     *
      * @param clientId 目标客户端
      * @return true/false
      */
@@ -33,6 +36,7 @@ public interface LzhphantomUserDetailsService extends UserDetailsService, Ordere
 
     /**
      * 排序值 默认取最大的
+     *
      * @return 排序值
      */
     default int getOrder() {
@@ -41,6 +45,7 @@ public interface LzhphantomUserDetailsService extends UserDetailsService, Ordere
 
     /**
      * 构建userdetails
+     *
      * @param result 用户信息
      * @return UserDetails
      */
@@ -59,16 +64,17 @@ public interface LzhphantomUserDetailsService extends UserDetailsService, Ordere
 
         Collection<GrantedAuthority> authorities = AuthorityUtils
                 .createAuthorityList(dbAuthsSet.toArray(new String[0]));
-        SysUser user = info.getSysUser();
+        User user = info.getUser();
 
         // 构造security用户
-        return new LzhphantomUser(user.getUserId(), user.getDeptId(), user.getUsername(),
+        return new LzhphantomUser(user.getId(), user.getDept().getId(), user.getUsername(),
                 SecurityConstants.BCRYPT + user.getPassword(), user.getPhone(), true, true, true,
                 StrUtil.equals(user.getLockFlag(), CommonConstants.STATUS_NORMAL), authorities);
     }
 
     /**
      * 通过用户实体查询
+     *
      * @param user user
      * @return
      */

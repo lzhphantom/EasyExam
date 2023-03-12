@@ -59,6 +59,12 @@ public class BaseEntity {
     @Column(name = "ACTION", length = 30, nullable = false)
     private ACTION action;
 
+    /**
+     * 是否删除 -1：已删除 0：正常
+     */
+    @Column(name = "delFlag")
+    private String delFlag;
+
     @PrePersist
     // 预处理 创建时间，更新时间，创建人员id，更新人员id
     public void prePersist() {

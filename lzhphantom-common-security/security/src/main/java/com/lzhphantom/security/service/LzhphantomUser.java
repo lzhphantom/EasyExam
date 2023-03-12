@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.google.common.collect.Maps;
 import lombok.Data;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
@@ -15,23 +16,25 @@ import java.util.Map;
  * @author lzhphantom
  * 扩展用户信息
  */
-@Data
 public class LzhphantomUser extends User implements OAuth2AuthenticatedPrincipal {
     /**
      * 用户ID
      */
+    @Getter
     @JsonSerialize(using = ToStringSerializer.class)
     private final Long id;
 
     /**
      * 部门ID
      */
+    @Getter
     @JsonSerialize(using = ToStringSerializer.class)
     private final Long deptId;
 
     /**
      * 手机号
      */
+    @Getter
     private final String phone;
 
     @Override

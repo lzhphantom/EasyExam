@@ -5,6 +5,8 @@ import cn.hutool.core.util.StrUtil;
 import com.lzhphantom.core.common.util.RetOps;
 import com.lzhphantom.core.constant.CacheConstants;
 import com.lzhphantom.core.constant.SecurityConstants;
+import com.lzhphantom.user.feign.RemoteClientDetailsService;
+import com.lzhphantom.user.login.entity.OauthClientDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.cache.annotation.Cacheable;
@@ -56,7 +58,7 @@ public class LzhphantomRemoteRegisteredClientRepository implements RegisteredCli
     @SneakyThrows
     @Cacheable(value = CacheConstants.CLIENT_DETAILS_KEY, key = "#clientId", unless = "#result==null")
     public RegisteredClient findByClientId(String clientId) {
-        SysOauthClientDetails clientDetails = RetOps.of(clientDetailsService.getClientDetailsById(clientId))
+        OauthClientDetails clientDetails = RetOps.of(clientDetailsService.getClientDetailsById(clientId))
                 .getData()
                 .orElseThrow(() -> new OAuth2AuthorizationCodeRequestAuthenticationException(
                         new OAuth2Error("客户端查询异常，请检查数据库链接"), null));
