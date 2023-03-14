@@ -14,6 +14,7 @@
         <option value="$PROJECT_DIR$/lzhphantom-gateway/gateway/pom.xml" />
         <option value="$PROJECT_DIR$/lzhphantom-common-swagger/swagger/pom.xml" />
         <option value="$PROJECT_DIR$/lzhphantom-common-security/security/pom.xml" />
+        <option value="$PROJECT_DIR$/lzhphantom-auth/auth/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
