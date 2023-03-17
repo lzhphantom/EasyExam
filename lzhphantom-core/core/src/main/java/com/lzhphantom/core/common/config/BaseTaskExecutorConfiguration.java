@@ -34,8 +34,11 @@ public class BaseTaskExecutorConfiguration implements AsyncConfigurer {
     @Override
     public Executor getAsyncExecutor() {
         ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
+        // 核心线程大小 默认区 CPU 数量
         taskExecutor.setCorePoolSize(corePoolSize.orElse(cpuNum));
+        // 最大线程大小 默认区 CPU * 2 数量
         taskExecutor.setMaxPoolSize(maxPoolSize.orElse(cpuNum * 2));
+        // 队列最大容量
         taskExecutor.setQueueCapacity(queueCapacity.orElse(500));
         taskExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         taskExecutor.setWaitForTasksToCompleteOnShutdown(true);

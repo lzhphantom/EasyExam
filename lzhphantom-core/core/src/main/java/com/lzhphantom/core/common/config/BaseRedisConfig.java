@@ -10,6 +10,7 @@ import org.springframework.data.redis.core.*;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
 /**
+ * @author lzhphantom
  * 配置redis
  */
 @EnableCaching

@@ -4,21 +4,31 @@ import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.TemporalAccessorUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
+import com.lzhphantom.auth.support.handler.LzhphantomAuthenticationFailureEventHandler;
 import com.lzhphantom.core.common.util.LzhphantomResult;
 import com.lzhphantom.core.common.util.RetOps;
 import com.lzhphantom.core.common.util.SpringContextHolder;
 import com.lzhphantom.core.constant.CacheConstants;
 import com.lzhphantom.core.constant.CommonConstants;
 import com.lzhphantom.security.annotation.Inner;
+import com.lzhphantom.security.util.OAuth2EndpointUtils;
+import com.lzhphantom.security.util.OAuth2ErrorCodesExpand;
 import com.lzhphantom.security.util.OAuthClientException;
 import com.lzhphantom.user.feign.RemoteClientDetailsService;
+import com.lzhphantom.user.login.entity.OauthClientDetails;
 import com.lzhphantom.user.vo.TokenVo;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.cache.CacheManager;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.security.authentication.event.LogoutSuccessEvent;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AccessTokenResponse;
@@ -27,6 +37,7 @@ import org.springframework.security.oauth2.core.http.converter.OAuth2AccessToken
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
+import org.springframework.security.oauth2.server.resource.InvalidBearerTokenException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.util.StringUtils;
@@ -39,6 +50,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * @author lzhphantom
+ * 删除token端点
+ */
 @Log4j2
 @RestController
 @RequiredArgsConstructor
@@ -47,7 +62,7 @@ public class LzhphantomTokenEndpoint {
 
     private final HttpMessageConverter<OAuth2AccessTokenResponse> accessTokenHttpResponseConverter = new OAuth2AccessTokenResponseHttpMessageConverter();
 
-    private final AuthenticationFailureHandler authenticationFailureHandler = new PigAuthenticationFailureEventHandler();
+    private final AuthenticationFailureHandler authenticationFailureHandler = new LzhphantomAuthenticationFailureEventHandler();
 
     private final OAuth2AuthorizationService authorizationService;
 
@@ -75,7 +90,7 @@ public class LzhphantomTokenEndpoint {
                                 @RequestParam(OAuth2ParameterNames.CLIENT_ID) String clientId,
                                 @RequestParam(OAuth2ParameterNames.SCOPE) String scope,
                                 @RequestParam(OAuth2ParameterNames.STATE) String state) {
-        SysOauthClientDetails clientDetails = RetOps.of(clientDetailsService.getClientDetailsById(clientId))
+        OauthClientDetails clientDetails = RetOps.of(clientDetailsService.getClientDetailsById(clientId))
                 .getData()
                 .orElseThrow(() -> new OAuthClientException("clientId 不合法"));
 

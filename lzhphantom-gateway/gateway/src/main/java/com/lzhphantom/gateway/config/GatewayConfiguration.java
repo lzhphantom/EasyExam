@@ -3,7 +3,6 @@ package com.lzhphantom.gateway.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lzhphantom.gateway.filter.LzhphantomRequestGlobalFilter;
 import com.lzhphantom.gateway.filter.PasswordDecoderFilter;
-import com.lzhphantom.gateway.filter.SwaggerBasicGatewayFilter;
 import com.lzhphantom.gateway.filter.ValidateCodeGatewayFilter;
 import com.lzhphantom.gateway.handler.GlobalExceptionHandler;
 import com.lzhphantom.gateway.handler.ImageCodeHandler;

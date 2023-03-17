@@ -1,6 +1,7 @@
 package com.lzhphantom.security.component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lzhphantom.security.feign.LzhphantomOAuthRequestInterceptor;
 import feign.RequestInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

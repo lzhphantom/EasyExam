@@ -1,9 +1,13 @@
 package com.lzhphantom.gateway.filter;
 
+import com.lzhphantom.core.common.util.SpringContextHolder;
+import com.lzhphantom.core.constant.CommonConstants;
+import com.lzhphantom.core.constant.SecurityConstants;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
 import org.springframework.core.Ordered;
+import org.springframework.core.env.Environment;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.util.StringUtils;
 import org.springframework.web.server.ServerWebExchange;
@@ -25,11 +29,13 @@ import java.util.stream.Collectors;
 public class LzhphantomRequestGlobalFilter implements GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+        Environment environment = SpringContextHolder.getApplicationContext().getEnvironment();
         // 1. 清洗请求头中from 参数
         ServerHttpRequest request = exchange.getRequest().mutate().headers(httpHeaders -> {
-            httpHeaders.remove("");
+            httpHeaders.remove(SecurityConstants.FROM);
             // 设置请求时间
-            httpHeaders.put("", Collections.singletonList(String.valueOf(System.currentTimeMillis())));
+            httpHeaders.put(CommonConstants.REQUEST_START_TIME,
+                    Collections.singletonList(String.valueOf(System.currentTimeMillis())));
         }).build();
         // 2. 重写StripPrefix
         ServerWebExchangeUtils.addOriginalRequestUrl(exchange, request.getURI());

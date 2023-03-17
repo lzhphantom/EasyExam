@@ -7,16 +7,21 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="fegin" />
         <module name="security" />
         <module name="lzhphantom-gateway" />
         <module name="auth" />
-        <module name="eureka" />
+        <module name="log" />
+        <module name="datasource" />
+        <module name="mybatis" />
+        <module name="job" />
         <module name="user" />
         <module name="gateway" />
         <module name="swagger" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="eureka" target="17" />
       <module name="lzhphantom-eureka" target="18" />
       <module name="lzhphantom-gateway" target="11" />
     </bytecodeTargetLevel>
@@ -24,9 +29,14 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="auth" options="-parameters" />
+      <module name="datasource" options="-parameters" />
       <module name="eureka" options="-parameters" />
+      <module name="fegin" options="-parameters" />
       <module name="gateway" options="-parameters" />
+      <module name="job" options="-parameters" />
+      <module name="log" options="-parameters" />
       <module name="lzhphantom-eureka" options="-parameters" />
+      <module name="mybatis" options="-parameters" />
       <module name="parent" options="-parameters" />
       <module name="security" options="-parameters" />
       <module name="swagger" options="-parameters" />

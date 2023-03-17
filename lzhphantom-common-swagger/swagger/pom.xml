@@ -20,19 +20,11 @@
         <!--接口文档-->
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-webmvc-core</artifactId>
-            <version>1.6.15</version>
+            <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
+            <version>2.0.4</version>
+            <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-security</artifactId>
-            <version>1.6.15</version>
-        </dependency>
-        <dependency>
-            <groupId>io.swagger.core.v3</groupId>
-            <artifactId>swagger-annotations</artifactId>
-            <version>2.2.8</version>
-        </dependency>
+
         <!--webflux 相关包-->
         <dependency>
             <groupId>org.springframework</groupId>

@@ -1,6 +1,6 @@
 package com.lzhphantom.core.common.entity;
 
-import com.lzhphantom.core.common.enums.ACTION;
+import com.lzhphantom.core.constant.enums.ACTION;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;

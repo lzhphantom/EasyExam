@@ -11,6 +11,11 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.Properties;
 
+/**
+ * @author lzhphantom
+ *
+ * 读取自定义 yaml 文件工厂类
+ */
 public class YamlPropertySourceFactory implements PropertySourceFactory {
     @Override
     public PropertySource<?> createPropertySource(String name, EncodedResource resource) throws IOException {

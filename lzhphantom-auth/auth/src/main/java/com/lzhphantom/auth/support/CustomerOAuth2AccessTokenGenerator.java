@@ -22,7 +22,6 @@ public class CustomerOAuth2AccessTokenGenerator implements OAuth2TokenGenerator<
     private OAuth2TokenCustomizer<OAuth2TokenClaimsContext> accessTokenCustomizer;
 
     @Nullable
-
     @Override
     public OAuth2AccessToken generate(OAuth2TokenContext context) {
         if (!OAuth2TokenType.ACCESS_TOKEN.equals(context.getTokenType())
