@@ -18,6 +18,7 @@
         <module name="user" />
         <module name="gateway" />
         <module name="swagger" />
+        <module name="Exam" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -28,6 +29,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Exam" options="-parameters" />
       <module name="auth" options="-parameters" />
       <module name="datasource" options="-parameters" />
       <module name="eureka" options="-parameters" />
@@ -37,7 +39,7 @@
       <module name="log" options="-parameters" />
       <module name="lzhphantom-eureka" options="-parameters" />
       <module name="mybatis" options="-parameters" />
-      <module name="parent" options="-parameters" />
+      <module name="parent" options="" />
       <module name="security" options="-parameters" />
       <module name="swagger" options="-parameters" />
       <module name="user" options="-parameters" />

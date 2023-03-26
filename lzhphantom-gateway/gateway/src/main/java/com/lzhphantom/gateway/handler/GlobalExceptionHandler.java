@@ -22,7 +22,13 @@ import reactor.core.publisher.Mono;
 @Log4j2
 @Order(-1)
 @RequiredArgsConstructor
-public record GlobalExceptionHandler(ObjectMapper objectMapper) implements ErrorWebExceptionHandler {
+public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
+    private ObjectMapper objectMapper;
+
+    public GlobalExceptionHandler(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
     @Override
     public Mono<Void> handle(ServerWebExchange exchange, Throwable ex) {
         ServerHttpResponse response = exchange.getResponse();

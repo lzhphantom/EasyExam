@@ -26,11 +26,6 @@ public class GatewayConfiguration {
         return new LzhphantomRequestGlobalFilter();
     }
 
-    @Bean
-    @ConditionalOnProperty(name = "swagger.basic.enabled")
-    public SwaggerBasicGatewayFilter swaggerBasicGatewayFilter(SpringDocConfiguration.SwaggerDocProperties swaggerProperties){
-        return new SwaggerBasicGatewayFilter(swaggerProperties);
-    }
 
     @Bean
     public ValidateCodeGatewayFilter validateCodeGatewayFilter(GatewayConfigProperties configProperties,

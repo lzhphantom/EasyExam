@@ -15,7 +15,7 @@ import java.util.List;
 @ConfigurationProperties("gateway")
 public class GatewayConfigProperties {
     /**
-     * 网关解密登录前端密码 秘钥 {@link com.pig4cloud.pig.gateway.filter.PasswordDecoderFilter}
+     * 网关解密登录前端密码 秘钥 {@link PasswordDecoderFilter}
      */
     private String encodeKey;
     private List<String> ignoreClients;

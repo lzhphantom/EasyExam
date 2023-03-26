@@ -29,7 +29,6 @@ import java.util.stream.Collectors;
 public class LzhphantomRequestGlobalFilter implements GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        Environment environment = SpringContextHolder.getApplicationContext().getEnvironment();
         // 1. 清洗请求头中from 参数
         ServerHttpRequest request = exchange.getRequest().mutate().headers(httpHeaders -> {
             httpHeaders.remove(SecurityConstants.FROM);
