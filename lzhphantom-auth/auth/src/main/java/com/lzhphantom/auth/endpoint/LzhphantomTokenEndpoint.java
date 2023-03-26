@@ -4,6 +4,7 @@ import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.TemporalAccessorUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lzhphantom.auth.support.handler.LzhphantomAuthenticationFailureEventHandler;
 import com.lzhphantom.core.common.util.LzhphantomResult;
 import com.lzhphantom.core.common.util.RetOps;
@@ -47,6 +48,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -164,7 +166,7 @@ public class LzhphantomTokenEndpoint {
             return LzhphantomResult.ok();
         }
         // 清空用户信息
-        cacheManager.getCache(CacheConstants.USER_DETAILS).evict(authorization.getPrincipalName());
+        Objects.requireNonNull(cacheManager.getCache(CacheConstants.USER_DETAILS)).evict(authorization.getPrincipalName());
         // 清空access token
         authorizationService.remove(authorization);
         // 处理自定义退出事件，保存相关日志
@@ -186,10 +188,10 @@ public class LzhphantomTokenEndpoint {
         int current = MapUtil.getInt(params, CommonConstants.CURRENT);
         int size = MapUtil.getInt(params, CommonConstants.SIZE);
         Set<String> keys = redisTemplate.keys(key);
-        List<String> pages = keys.stream().skip((current - 1) * size).limit(size).collect(Collectors.toList());
+        List<String> pages = Objects.requireNonNull(keys).stream().skip((long) (current - 1) * size).limit(size).collect(Collectors.toList());
         Page result = new Page(current, size);
 
-        List<TokenVo> tokenVoList = redisTemplate.opsForValue().multiGet(pages).stream().map(obj -> {
+        List<TokenVo> tokenVoList = Objects.requireNonNull(redisTemplate.opsForValue().multiGet(pages)).stream().map(obj -> {
             OAuth2Authorization authorization = (OAuth2Authorization) obj;
             TokenVo tokenVo = new TokenVo();
             tokenVo.setClientId(authorization.getRegisteredClientId());

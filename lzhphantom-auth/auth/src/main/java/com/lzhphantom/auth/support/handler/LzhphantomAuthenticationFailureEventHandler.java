@@ -6,7 +6,10 @@ import com.lzhphantom.core.common.util.MsgUtils;
 import com.lzhphantom.core.common.util.SpringContextHolder;
 import com.lzhphantom.core.constant.CommonConstants;
 import com.lzhphantom.core.constant.SecurityConstants;
-import jakarta.servlet.ServletException;
+import com.lzhphantom.log.event.LzhphantomLogEvent;
+import com.lzhphantom.log.utils.LogTypeEnum;
+import com.lzhphantom.log.utils.LogUtils;
+import com.lzhphantom.user.login.entity.SystemLog;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
@@ -20,8 +23,6 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
-import java.io.IOException;
-
 /**
  * @author lzhphantom
  */
@@ -29,11 +30,12 @@ import java.io.IOException;
 public class LzhphantomAuthenticationFailureEventHandler implements AuthenticationFailureHandler {
     private final MappingJackson2HttpMessageConverter errorHttpResponseConverter = new MappingJackson2HttpMessageConverter();
     @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) {
         String username = request.getParameter(OAuth2ParameterNames.USERNAME);
 
         log.info("用户：{} 登录失败，异常：{}", username, exception.getLocalizedMessage());
-        SysLog logVo = SysLogUtils.getSysLog();
+        SystemLog logVo = LogUtils.getSystemLog();
+
         logVo.setTitle("登录失败");
         logVo.setType(LogTypeEnum.ERROR.getType());
         logVo.setException(exception.getLocalizedMessage());
@@ -46,7 +48,7 @@ public class LzhphantomAuthenticationFailureEventHandler implements Authenticati
         }
         logVo.setCreateBy(username);
         logVo.setUpdateBy(username);
-        SpringContextHolder.publishEvent(new SysLogEvent(logVo));
+        SpringContextHolder.publishEvent(new LzhphantomLogEvent(logVo));
         // 写出错误信息
         sendErrorResponse(request, response, exception);
     }
@@ -57,8 +59,7 @@ public class LzhphantomAuthenticationFailureEventHandler implements Authenticati
         httpResponse.setStatusCode(HttpStatus.UNAUTHORIZED);
         String errorMessage;
 
-        if (exception instanceof OAuth2AuthenticationException) {
-            OAuth2AuthenticationException authorizationException = (OAuth2AuthenticationException) exception;
+        if (exception instanceof OAuth2AuthenticationException authorizationException) {
             errorMessage = StrUtil.isBlank(authorizationException.getError().getDescription())
                     ? authorizationException.getError().getErrorCode()
                     : authorizationException.getError().getDescription();

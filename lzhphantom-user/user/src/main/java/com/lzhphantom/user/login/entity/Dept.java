@@ -7,8 +7,6 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 import org.hibernate.envers.Audited;
 
-import java.util.Set;
-
 /**
  * 部门管理
  *

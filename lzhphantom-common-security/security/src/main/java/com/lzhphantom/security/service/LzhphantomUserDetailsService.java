@@ -2,13 +2,13 @@ package com.lzhphantom.security.service;
 
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
+import com.google.common.collect.Sets;
 import com.lzhphantom.core.common.util.LzhphantomResult;
 import com.lzhphantom.core.common.util.RetOps;
 import com.lzhphantom.core.constant.CommonConstants;
 import com.lzhphantom.core.constant.SecurityConstants;
 import com.lzhphantom.user.dto.UserInfo;
 import com.lzhphantom.user.login.entity.User;
-import org.glassfish.jersey.internal.guava.Sets;
 import org.springframework.core.Ordered;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;

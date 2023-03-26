@@ -2,6 +2,9 @@ package com.lzhphantom.auth.support.handler;
 
 import com.lzhphantom.core.common.util.LzhphantomWebUtils;
 import com.lzhphantom.core.common.util.SpringContextHolder;
+import com.lzhphantom.log.event.LzhphantomLogEvent;
+import com.lzhphantom.log.utils.LogUtils;
+import com.lzhphantom.user.login.entity.SystemLog;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.ApplicationListener;
 import org.springframework.http.HttpHeaders;
@@ -12,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author lzhphantom
- *
+ * <p>
  * 事件机制处理退出相关
  */
 @Log4j2
@@ -30,11 +33,12 @@ public class LzhphantomLogoutSuccessEventHandler implements ApplicationListener<
      * 处理退出成功方法
      * <p>
      * 获取到登录的authentication 对象
+     *
      * @param authentication 登录对象
      */
     private void handle(Authentication authentication) {
         log.info("用户：{} 退出成功", authentication.getPrincipal());
-        SysLog logVo = SysLogUtils.getSysLog();
+        SystemLog logVo = LogUtils.getSystemLog();
         logVo.setTitle("退出成功");
         // 发送异步日志事件
         Long startTime = System.currentTimeMillis();
@@ -50,6 +54,6 @@ public class LzhphantomLogoutSuccessEventHandler implements ApplicationListener<
         }
         logVo.setCreateBy(authentication.getName());
         logVo.setUpdateBy(authentication.getName());
-        SpringContextHolder.publishEvent(new SysLogEvent(logVo));
+        SpringContextHolder.publishEvent(new LzhphantomLogEvent(logVo));
     }
 }

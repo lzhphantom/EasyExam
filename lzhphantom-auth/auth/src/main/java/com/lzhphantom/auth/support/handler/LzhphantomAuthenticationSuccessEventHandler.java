@@ -5,6 +5,9 @@ import cn.hutool.core.util.StrUtil;
 import com.lzhphantom.core.common.util.SpringContextHolder;
 import com.lzhphantom.core.constant.CommonConstants;
 import com.lzhphantom.core.constant.SecurityConstants;
+import com.lzhphantom.log.event.LzhphantomLogEvent;
+import com.lzhphantom.log.utils.LogUtils;
+import com.lzhphantom.user.login.entity.SystemLog;
 import com.lzhphantom.user.login.entity.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -47,7 +50,7 @@ public class LzhphantomAuthenticationSuccessEventHandler implements Authenticati
             SecurityContext context = SecurityContextHolder.createEmptyContext();
             context.setAuthentication(accessTokenAuthentication);
             SecurityContextHolder.setContext(context);
-            SysLog logVo = SysLogUtils.getSysLog();
+            SystemLog logVo = LogUtils.getSystemLog();
             logVo.setTitle("登录成功");
             String startTimeStr = request.getHeader(CommonConstants.REQUEST_START_TIME);
             if (StrUtil.isNotBlank(startTimeStr)) {
@@ -55,9 +58,9 @@ public class LzhphantomAuthenticationSuccessEventHandler implements Authenticati
                 Long endTime = System.currentTimeMillis();
                 logVo.setTime(endTime - startTime);
             }
-            logVo.setCreateBy(userInfo.getName());
-            logVo.setUpdateBy(userInfo.getName());
-            SpringContextHolder.publishEvent(new SysLogEvent(logVo));
+            logVo.setCreateBy(userInfo.getUsername());
+            logVo.setUpdateBy(userInfo.getUsername());
+            SpringContextHolder.publishEvent(new LzhphantomLogEvent(logVo));
         }
 
         // 输出token

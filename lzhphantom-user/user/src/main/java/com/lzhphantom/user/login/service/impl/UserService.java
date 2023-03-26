@@ -3,7 +3,6 @@ package com.lzhphantom.user.login.service.impl;
 import com.lzhphantom.user.login.repository.IUserRepository;
 import com.lzhphantom.user.login.service.IUserService;
 import lombok.extern.log4j.Log4j2;
-import org.hibernate.envers.Audited;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

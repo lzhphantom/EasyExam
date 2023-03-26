@@ -1,2 +1,18 @@
 server:
-    port: 3000
+  port: 3000
+spring:
+  profiles:
+    active: dev
+  application:
+    name: lzhphantom-auth
+  config:
+    import: optional:nacos:lzhphantom-auth-dev.yml
+  cloud:
+    nacos:
+      username: nacos
+      password: nacos
+      discovery:
+        server-addr: localhost:8848
+      config:
+        server-addr: localhost:8848
+        file-extension: yaml
