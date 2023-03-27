@@ -1,0 +1,3 @@
+com.lzhphantom.fegin.LzhphantomFeignAutoConfiguration
+com.lzhphantom.fegin.sentinel.SentinelAutoConfiguration
+com.lzhphantom.fegin.sentinel.handle.GlobalBizExceptionHandler
