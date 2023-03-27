@@ -2,6 +2,8 @@ package com.lzhphantom.fegin.annotation;
 
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.openfeign.FeignClientsConfiguration;
+import org.springframework.cloud.openfeign.LzhphantomFeignClientsRegistrar;
+import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;
 
@@ -13,6 +15,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @EnableFeignClients
+@Import(LzhphantomFeignClientsRegistrar.class)
 public @interface EnableLzhphantomFeignClients {
 
     /**
@@ -32,7 +35,7 @@ public @interface EnableLzhphantomFeignClients {
      * package names.
      * @return the array of 'basePackages'.
      */
-    String[] basePackages() default { "com.pig4cloud.pig" };
+    String[] basePackages() default { "com.lzhphantom" };
 
     /**
      * Type-safe alternative to {@link #basePackages()} for specifying the packages to

@@ -1,6 +1,7 @@
 package com.lzhphantom.security.service;
 
 import com.google.common.collect.Lists;
+import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
@@ -18,13 +19,14 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class LzhphantomRedisOAuth2AuthorizationService implements OAuth2AuthorizationService {
     private final static Long TIMEOUT = 10L;
 
     private static final String AUTHORIZATION = "token";
 
-    private final RedisTemplate<String, Object> redisTemplate;
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
     @Override
     public void save(OAuth2Authorization authorization) {
         Assert.notNull(authorization, "authorization cannot be null");

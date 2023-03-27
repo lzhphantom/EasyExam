@@ -18,11 +18,14 @@ import com.lzhphantom.security.util.OAuthClientException;
 import com.lzhphantom.user.feign.RemoteClientDetailsService;
 import com.lzhphantom.user.login.entity.OauthClientDetails;
 import com.lzhphantom.user.vo.TokenVo;
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.CacheManager;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
@@ -58,7 +61,7 @@ import java.util.stream.Collectors;
  */
 @Log4j2
 @RestController
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @RequestMapping("/token")
 public class LzhphantomTokenEndpoint {
 
@@ -66,18 +69,23 @@ public class LzhphantomTokenEndpoint {
 
     private final AuthenticationFailureHandler authenticationFailureHandler = new LzhphantomAuthenticationFailureEventHandler();
 
-    private final OAuth2AuthorizationService authorizationService;
+    @Resource
+    private OAuth2AuthorizationService authorizationService;
 
-    private final RemoteClientDetailsService clientDetailsService;
+    @Resource
+    private RemoteClientDetailsService clientDetailsService;
 
-    private final RedisTemplate<String, Object> redisTemplate;
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
 
-    private final CacheManager cacheManager;
+    @Resource
+    private CacheManager cacheManager;
 
     /**
      * 认证页面
+     *
      * @param modelAndView
-     * @param error 表单登录失败处理回调的错误信息
+     * @param error        表单登录失败处理回调的错误信息
      * @return ModelAndView
      */
     @GetMapping("/login")
@@ -107,6 +115,7 @@ public class LzhphantomTokenEndpoint {
 
     /**
      * 退出并删除token
+     *
      * @param authHeader Authorization
      */
     @DeleteMapping("/logout")
@@ -121,6 +130,7 @@ public class LzhphantomTokenEndpoint {
 
     /**
      * 校验token
+     *
      * @param token 令牌
      */
     @SneakyThrows
@@ -151,6 +161,7 @@ public class LzhphantomTokenEndpoint {
 
     /**
      * 令牌管理调用
+     *
      * @param token token
      */
     @Inner
@@ -177,6 +188,7 @@ public class LzhphantomTokenEndpoint {
 
     /**
      * 查询token
+     *
      * @param params 分页参数
      * @return
      */
