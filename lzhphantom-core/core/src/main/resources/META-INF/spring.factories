@@ -1,0 +1,7 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.lzhphantom.core.common.config.BaseJacksonConfiguration\
+com.lzhphantom.core.common.config.BaseTaskExecutorConfiguration\
+com.lzhphantom.core.common.config.BaseRedisConfig\
+com.lzhphantom.core.common.config.BaseRestTemplateConfiguration\
+com.lzhphantom.core.common.config.WebMvcConfiguration\
+com.lzhphantom.core.common.util.SpringContextHolder

@@ -31,7 +31,6 @@ import java.util.function.Supplier;
 
 /**
  * @author lzhphantom
- * @description
  *
  * 处理自定义授权
  */
@@ -121,7 +120,7 @@ public abstract  class OAuth2ResourceOwnerBaseAuthenticationProvider <T extends 
         // Default to configured scopes
         if (!CollectionUtils.isEmpty(resouceOwnerBaseAuthentication.getScopes())) {
             for (String requestedScope : resouceOwnerBaseAuthentication.getScopes()) {
-                if (!registeredClient.getScopes().contains(requestedScope)) {
+                if (!Objects.requireNonNull(registeredClient).getScopes().contains(requestedScope)) {
                     throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_SCOPE);
                 }
             }
