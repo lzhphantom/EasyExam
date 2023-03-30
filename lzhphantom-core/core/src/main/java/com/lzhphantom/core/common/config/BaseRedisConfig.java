@@ -1,9 +1,12 @@
 package com.lzhphantom.core.common.config;
 
+import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.*;
@@ -16,10 +19,12 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 @EnableCaching
 @AutoConfiguration
 @AutoConfigureBefore(RedisAutoConfiguration.class)
+@Log4j2
 public class BaseRedisConfig {
 
     @Bean
-    public RedisTemplate<String, Object> baseRedisTemplate(RedisConnectionFactory factory) {
+    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
+        log.info("start to register redis template");
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setKeySerializer(RedisSerializer.string());
         redisTemplate.setValueSerializer(RedisSerializer.string());

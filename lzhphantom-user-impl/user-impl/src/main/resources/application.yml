@@ -1,0 +1,18 @@
+server:
+    port: 4000
+spring:
+    profiles:
+        active: dev
+    config:
+        import: optional:nacos:lzhphantom-user-dev.yml
+    application:
+        name: user
+    cloud:
+      nacos:
+        discovery:
+            server-addr: localhost:8848
+            username: nacos
+            password: nacos
+        config:
+            server-addr: localhost:8848
+            file-extension: yaml

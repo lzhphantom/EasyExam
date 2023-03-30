@@ -61,7 +61,7 @@ import java.util.stream.Collectors;
  */
 @Log4j2
 @RestController
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/token")
 public class LzhphantomTokenEndpoint {
 
@@ -69,17 +69,13 @@ public class LzhphantomTokenEndpoint {
 
     private final AuthenticationFailureHandler authenticationFailureHandler = new LzhphantomAuthenticationFailureEventHandler();
 
-    @Resource
-    private OAuth2AuthorizationService authorizationService;
+    private final OAuth2AuthorizationService authorizationService;
 
-    @Resource
-    private RemoteClientDetailsService clientDetailsService;
+    private final RemoteClientDetailsService clientDetailsService;
 
-    @Resource
-    private RedisTemplate<String, Object> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
 
-    @Resource
-    private CacheManager cacheManager;
+    private final CacheManager cacheManager;
 
     /**
      * 认证页面

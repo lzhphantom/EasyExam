@@ -54,6 +54,13 @@
             <artifactId>spring-retry</artifactId>
             <version>2.0.0</version>
         </dependency>
+        <!--caffeine 替换LB 默认缓存实现-->
+        <!-- https://mvnrepository.com/artifact/com.github.ben-manes.caffeine/caffeine -->
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+            <version>3.1.5</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>

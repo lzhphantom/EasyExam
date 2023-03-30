@@ -11,15 +11,15 @@ spring:
         locator:
           lower-case-service-id: true
       routes:
-#        - id: lzhphantom-user
-#          uri: lb://lzhphantom-user
+        - id: lzhphantom-user
+          uri: lb://lzhphantom-user
 #          #                uri: http://localhost:10010
-#          predicates:
+          predicates:
 #            # Path Route Predicate Factory ????? /lzhphantom/user/** ??????????? http://localhost:10010 ??uri?
-#            - Path=/lzhphantom/user/**
+            - Path=/lzhphantom/user/**
 #              # Weight Route Predicate Factory ???????????????????????80%
 #            # ???group1?????????????
-#            - Weight=group1, 8
+            - Weight=group1, 8
 #          filters:
 #            - StripPrefix=2 # StripPrefix????????????1?????/lzhphantom
         - id: exam
