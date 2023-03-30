@@ -1,0 +1,7 @@
+com.lzhphantom.user.feign.RemoteClientDetailsService
+com.lzhphantom.user.feign.RemoteDictService
+com.lzhphantom.user.feign.RemoteDeptService
+com.lzhphantom.user.feign.RemoteLogService
+com.lzhphantom.user.feign.RemoteTokenService
+com.lzhphantom.user.feign.RemoteUserService
+com.lzhphantom.user.feign.RemoteParamService
