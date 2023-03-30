@@ -73,8 +73,7 @@ public class LzhphantomTokenEndpoint {
 
     private final RemoteClientDetailsService clientDetailsService;
 
-    @Resource
-    private RedisTemplate<String, Object> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     private final CacheManager cacheManager;
 

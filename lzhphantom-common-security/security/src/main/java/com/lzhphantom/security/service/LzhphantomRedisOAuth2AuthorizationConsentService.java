@@ -10,10 +10,9 @@ import org.springframework.util.Assert;
 
 import java.util.concurrent.TimeUnit;
 
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 public class LzhphantomRedisOAuth2AuthorizationConsentService implements OAuth2AuthorizationConsentService {
-    @Resource
-    private RedisTemplate<String, Object> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     private final static Long TIMEOUT = 10L;
     @Override
