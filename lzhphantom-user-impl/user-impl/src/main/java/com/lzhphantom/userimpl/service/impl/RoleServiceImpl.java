@@ -25,11 +25,11 @@ import com.lzhphantom.core.common.util.MsgUtils;
 import com.lzhphantom.core.constant.CacheConstants;
 import com.lzhphantom.core.exception.ErrorCodes;
 import com.lzhphantom.user.login.entity.Role;
+import com.lzhphantom.user.login.entity.RoleMenu;
 import com.lzhphantom.user.vo.RoleExcelVO;
 import com.lzhphantom.userimpl.mapper.RoleMapper;
 import com.lzhphantom.userimpl.mapper.RoleMenuMapper;
 import com.lzhphantom.userimpl.service.RoleService;
-import com.pig4cloud.pig.admin.api.entity.RoleMenu;
 import com.pig4cloud.plugin.excel.vo.ErrorMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
@@ -47,7 +47,7 @@ import java.util.stream.Collectors;
  * 服务实现类
  * </p>
  *
- * @author lengleng
+ * @author lzhphantom
  * @since 2019/2/1
  */
 @Service
@@ -65,7 +65,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 	@Transactional(rollbackFor = Exception.class)
 	@CacheEvict(value = CacheConstants.MENU_DETAILS, allEntries = true)
 	public Boolean removeRoleById(Long id) {
-		RoleMenuMapper.delete(Wrappers.<RoleMenu>update().lambda().eq(RoleMenu::getRoleId, id));
+		roleMenuMapper.delete(Wrappers.<RoleMenu>update().lambda().eq(RoleMenu::getRoleId, id));
 		return this.removeById(id);
 	}
 

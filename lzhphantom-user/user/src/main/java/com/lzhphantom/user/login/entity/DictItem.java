@@ -1,76 +1,83 @@
 package com.lzhphantom.user.login.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.lzhphantom.core.common.entity.BaseEntity;
-import jakarta.persistence.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
-import org.hibernate.envers.Audited;
 
 /**
  * 字典项
  *
  * @author lzhphantom
  */
-@Entity
-@Table(name = "LZHPHANTOM_USER")
 @Data
-@Accessors(chain = true)
-@Audited
+@Schema(description = "字典项")
 @EqualsAndHashCode(callSuper = true)
 public class DictItem extends BaseEntity {
+    private static final long serialVersionUID = 1L;
+
     /**
-     * 主键ID
+     * 编号
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @TableId(type = IdType.ASSIGN_ID)
+    @Schema(description = "字典项id")
     private Long id;
 
     /**
      * 所属字典类id
      */
-    @Column(name = "dictId")
+    @Schema(description = "所属字典类id")
     private Long dictId;
 
     /**
      * 所属字典类id
      */
-    @Column(name = "dictKey")
+    @Schema(description = "所属字典类key")
     private String dictKey;
 
     /**
      * 数据值
      */
-    @Column(name = "value")
+    @Schema(description = "数据值")
     private String value;
 
     /**
      * 标签名
      */
-    @Column(name = "label")
+    @Schema(description = "标签名")
     private String label;
 
     /**
      * 类型
      */
-    @Column(name = "type")
+    @Schema(description = "类型")
     private String type;
 
     /**
      * 描述
      */
-    @Column(name = "description")
+    @Schema(description = "描述")
     private String description;
 
     /**
      * 排序（升序）
      */
-    @Column(name = "sortOrder")
+    @Schema(description = "排序值，默认升序")
     private Integer sortOrder;
 
     /**
      * 备注信息
      */
-    @Column(name = "remark")
+    @Schema(description = "备注信息")
     private String remark;
+
+    /**
+     * 删除标记
+     */
+    @TableLogic
+    @Schema(description = "删除标记,1:已删除,0:正常")
+    private String delFlag;
 }

@@ -1,57 +1,59 @@
 package com.lzhphantom.user.login.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.lzhphantom.core.common.entity.BaseEntity;
-import jakarta.persistence.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
-import org.hibernate.envers.Audited;
-
-import java.util.Set;
 
 /**
  * 岗位表
  *
  * @author lzhphantom
  */
-@Entity
-@Table(name = "LZHPHANTOM_USER")
 @Data
-@Accessors(chain = true)
-@Audited
+@TableName("LZHPHANTOM_POST")
 @EqualsAndHashCode(callSuper = true)
+@Schema(description = "岗位信息表")
 public class Post extends BaseEntity {
+    private static final long serialVersionUID = -8744622014102311894L;
+
     /**
-     * 主键ID
+     * 岗位ID
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @TableId(type = IdType.ASSIGN_ID)
+    @Schema(description = "岗位ID")
+    private Long postId;
 
     /**
      * 岗位编码
      */
-    @Column(name = "postCode", nullable = false)
+    @Schema(description = "岗位编码")
     private String postCode;
 
     /**
      * 岗位名称
      */
-    @Column(name = "postName", nullable = false)
+    @Schema(description = "岗位名称")
     private String postName;
 
     /**
      * 岗位排序
      */
-    @Column(name = "postSort")
+    @Schema(description = "岗位排序")
     private Integer postSort;
+
+    /**
+     * 是否删除 -1：已删除 0：正常
+     */
+    @Schema(description = "是否删除  -1：已删除  0：正常")
+    private String delFlag;
 
     /**
      * 备注信息
      */
-    @Column(name = "remark")
+    @Schema(description = "备注信息")
     private String remark;
-
-    @ManyToMany(mappedBy = "posts", fetch = FetchType.LAZY)
-    private Set<User> users;
 }

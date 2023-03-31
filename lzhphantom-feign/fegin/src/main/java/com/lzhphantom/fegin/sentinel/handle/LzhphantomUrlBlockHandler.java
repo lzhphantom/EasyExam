@@ -16,7 +16,7 @@ import org.springframework.http.MediaType;
  * <p>
  * {@link com.alibaba.csp.sentinel.adapter.spring.webmvc.callback.DefaultBlockExceptionHandler}
  *
- * @author lengleng
+ * @author lzhphantom
  * @date 2020-06-11
  */
 @Log4j2

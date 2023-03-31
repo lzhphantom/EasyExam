@@ -17,11 +17,11 @@ package com.lzhphantom.userimpl.controller;
 
 import cn.hutool.core.lang.tree.Tree;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.pig4cloud.pig.admin.api.entity.SysDept;
-import com.pig4cloud.pig.admin.service.SysDeptService;
-import com.pig4cloud.pig.common.core.util.R;
-import com.pig4cloud.pig.common.log.annotation.SysLog;
-import com.pig4cloud.pig.common.security.annotation.Inner;
+import com.lzhphantom.core.common.util.LzhphantomResult;
+import com.lzhphantom.log.annotation.LzhphantomLog;
+import com.lzhphantom.security.annotation.Inner;
+import com.lzhphantom.user.login.entity.Dept;
+import com.lzhphantom.userimpl.service.DeptService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -37,7 +37,7 @@ import java.util.List;
  * 部门管理 前端控制器
  * </p>
  *
- * @author lengleng
+ * @author lzhphantom
  * @since 2019/2/1
  */
 @RestController
@@ -47,7 +47,7 @@ import java.util.List;
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class DeptController {
 
-	private final SysDeptService sysDeptService;
+	private final DeptService sysDeptService;
 
 	/**
 	 * 通过ID查询
@@ -55,8 +55,8 @@ public class DeptController {
 	 * @return SysDept
 	 */
 	@GetMapping("/{id:\\d+}")
-	public R<SysDept> getById(@PathVariable Long id) {
-		return R.ok(sysDeptService.getById(id));
+	public LzhphantomResult<Dept> getById(@PathVariable Long id) {
+		return LzhphantomResult.ok(sysDeptService.getById(id));
 	}
 
 	/**
@@ -64,8 +64,8 @@ public class DeptController {
 	 * @return 树形菜单
 	 */
 	@GetMapping(value = "/tree")
-	public R<List<Tree<Long>>> listDeptTrees() {
-		return R.ok(sysDeptService.listDeptTrees());
+	public LzhphantomResult<List<Tree<Long>>> listDeptTrees() {
+		return LzhphantomResult.ok(sysDeptService.listDeptTrees());
 	}
 
 	/**
@@ -73,8 +73,8 @@ public class DeptController {
 	 * @return 树形菜单
 	 */
 	@GetMapping(value = "/user-tree")
-	public R<List<Tree<Long>>> listCurrentUserDeptTrees() {
-		return R.ok(sysDeptService.listCurrentUserDeptTrees());
+	public LzhphantomResult<List<Tree<Long>>> listCurrentUserDeptTrees() {
+		return LzhphantomResult.ok(sysDeptService.listCurrentUserDeptTrees());
 	}
 
 	/**
@@ -82,11 +82,11 @@ public class DeptController {
 	 * @param sysDept 实体
 	 * @return success/false
 	 */
-	@SysLog("添加部门")
+	@LzhphantomLog("添加部门")
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_dept_add')")
-	public R<Boolean> save(@Valid @RequestBody SysDept sysDept) {
-		return R.ok(sysDeptService.saveDept(sysDept));
+	public LzhphantomResult<Boolean> save(@Valid @RequestBody Dept sysDept) {
+		return LzhphantomResult.ok(sysDeptService.saveDept(sysDept));
 	}
 
 	/**
@@ -94,11 +94,11 @@ public class DeptController {
 	 * @param id ID
 	 * @return success/false
 	 */
-	@SysLog("删除部门")
+	@LzhphantomLog("删除部门")
 	@DeleteMapping("/{id:\\d+}")
 	@PreAuthorize("@pms.hasPermission('sys_dept_del')")
-	public R<Boolean> removeById(@PathVariable Long id) {
-		return R.ok(sysDeptService.removeDeptById(id));
+	public LzhphantomResult<Boolean> removeById(@PathVariable Long id) {
+		return LzhphantomResult.ok(sysDeptService.removeDeptById(id));
 	}
 
 	/**
@@ -106,11 +106,11 @@ public class DeptController {
 	 * @param sysDept 实体
 	 * @return success/false
 	 */
-	@SysLog("编辑部门")
+	@LzhphantomLog("编辑部门")
 	@PutMapping
 	@PreAuthorize("@pms.hasPermission('sys_dept_edit')")
-	public R<Boolean> update(@Valid @RequestBody SysDept sysDept) {
-		return R.ok(sysDeptService.updateDeptById(sysDept));
+	public LzhphantomResult<Boolean> update(@Valid @RequestBody Dept sysDept) {
+		return LzhphantomResult.ok(sysDeptService.updateDeptById(sysDept));
 	}
 
 	/**
@@ -119,10 +119,10 @@ public class DeptController {
 	 * @return
 	 */
 	@GetMapping("/details/{deptname}")
-	public R<SysDept> user(@PathVariable String deptname) {
-		SysDept condition = new SysDept();
+	public LzhphantomResult<Dept> user(@PathVariable String deptname) {
+		Dept condition = new Dept();
 		condition.setName(deptname);
-		return R.ok(sysDeptService.getOne(new QueryWrapper<>(condition)));
+		return LzhphantomResult.ok(sysDeptService.getOne(new QueryWrapper<>(condition)));
 	}
 
 	/**
@@ -131,8 +131,8 @@ public class DeptController {
 	 */
 	@Inner
 	@GetMapping(value = "/child-id/{deptId:\\d+}")
-	public R<List<Long>> listChildDeptId(@PathVariable Long deptId) {
-		return R.ok(sysDeptService.listChildDeptId(deptId));
+	public LzhphantomResult<List<Long>> listChildDeptId(@PathVariable Long deptId) {
+		return LzhphantomResult.ok(sysDeptService.listChildDeptId(deptId));
 	}
 
 }

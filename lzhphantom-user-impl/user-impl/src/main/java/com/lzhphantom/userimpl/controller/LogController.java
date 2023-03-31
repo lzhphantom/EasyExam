@@ -17,11 +17,11 @@ package com.lzhphantom.userimpl.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.pig4cloud.pig.admin.api.dto.SysLogDTO;
-import com.pig4cloud.pig.admin.api.entity.SysLog;
-import com.pig4cloud.pig.admin.service.SysLogService;
-import com.pig4cloud.pig.common.core.util.R;
-import com.pig4cloud.pig.common.security.annotation.Inner;
+import com.lzhphantom.core.common.util.LzhphantomResult;
+import com.lzhphantom.security.annotation.Inner;
+import com.lzhphantom.user.dto.SystemLogDTO;
+import com.lzhphantom.user.login.entity.SystemLog;
+import com.lzhphantom.userimpl.service.LogService;
 import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -38,7 +38,7 @@ import java.util.List;
  * 日志表 前端控制器
  * </p>
  *
- * @author lengleng
+ * @author lzhphantom
  * @since 2019/2/1
  */
 @RestController
@@ -48,7 +48,7 @@ import java.util.List;
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class LogController {
 
-	private final SysLogService sysLogService;
+	private final LogService sysLogService;
 
 	/**
 	 * 简单分页查询
@@ -57,8 +57,8 @@ public class LogController {
 	 * @return
 	 */
 	@GetMapping("/page")
-	public R<IPage<SysLog>> getLogPage(Page page, SysLogDTO sysLog) {
-		return R.ok(sysLogService.getLogByPage(page, sysLog));
+	public LzhphantomResult<IPage<SystemLog>> getLogPage(Page page, SystemLogDTO sysLog) {
+		return LzhphantomResult.ok(sysLogService.getLogByPage(page, sysLog));
 	}
 
 	/**
@@ -68,8 +68,8 @@ public class LogController {
 	 */
 	@DeleteMapping("/{id:\\d+}")
 	@PreAuthorize("@pms.hasPermission('sys_log_del')")
-	public R<Boolean> removeById(@PathVariable Long id) {
-		return R.ok(sysLogService.removeById(id));
+	public LzhphantomResult<Boolean> removeById(@PathVariable Long id) {
+		return LzhphantomResult.ok(sysLogService.removeById(id));
 	}
 
 	/**
@@ -79,8 +79,8 @@ public class LogController {
 	 */
 	@Inner
 	@PostMapping
-	public R<Boolean> save(@Valid @RequestBody SysLog sysLog) {
-		return R.ok(sysLogService.save(sysLog));
+	public LzhphantomResult<Boolean> save(@Valid @RequestBody SystemLog sysLog) {
+		return LzhphantomResult.ok(sysLogService.save(sysLog));
 	}
 
 	/**
@@ -91,7 +91,7 @@ public class LogController {
 	@ResponseExcel
 	@GetMapping("/export")
 	@PreAuthorize("@pms.hasPermission('sys_log_import_export')")
-	public List<SysLog> export(SysLogDTO sysLog) {
+	public List<SystemLog> export(SystemLogDTO sysLog) {
 		return sysLogService.getLogList(sysLog);
 	}
 

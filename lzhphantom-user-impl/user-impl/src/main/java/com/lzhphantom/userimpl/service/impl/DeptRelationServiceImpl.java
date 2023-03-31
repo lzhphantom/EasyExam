@@ -20,6 +20,7 @@ import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lzhphantom.user.login.entity.Dept;
+import com.lzhphantom.user.login.entity.DeptRelation;
 import com.lzhphantom.userimpl.mapper.DeptRelationMapper;
 import com.lzhphantom.userimpl.service.DeptRelationService;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +35,7 @@ import java.util.stream.Collectors;
  * 服务实现类
  * </p>
  *
- * @author lengleng
+ * @author lzhphantom
  * @since 2019/2/1
  */
 @Service
@@ -46,16 +47,16 @@ public class DeptRelationServiceImpl extends ServiceImpl<DeptRelationMapper, Dep
 
 	/**
 	 * 维护部门关系
-	 * @param sysDept 部门
+	 * @param dept 部门
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public void saveDeptRelation(Dept sysDept) {
+	public void saveDeptRelation(Dept dept) {
 		// 增加部门关系表
 		List<DeptRelation> relationList = sysDeptRelationMapper.selectList(
-				Wrappers.<DeptRelation>query().lambda().eq(DeptRelation::getDescendant, sysDept.getParentId()))
+				Wrappers.<DeptRelation>query().lambda().eq(DeptRelation::getDescendant, dept.getParentId()))
 				.stream().map(relation -> {
-					relation.setDescendant(sysDept.getDeptId());
+					relation.setDescendant(dept.getDeptId());
 					return relation;
 				}).collect(Collectors.toList());
 		if (CollUtil.isNotEmpty(relationList)) {
@@ -64,8 +65,8 @@ public class DeptRelationServiceImpl extends ServiceImpl<DeptRelationMapper, Dep
 
 		// 自己也要维护到关系表中
 		DeptRelation own = new DeptRelation();
-		own.setDescendant(sysDept.getDeptId());
-		own.setAncestor(sysDept.getDeptId());
+		own.setDescendant(dept.getDeptId());
+		own.setAncestor(dept.getDeptId());
 		sysDeptRelationMapper.insert(own);
 	}
 

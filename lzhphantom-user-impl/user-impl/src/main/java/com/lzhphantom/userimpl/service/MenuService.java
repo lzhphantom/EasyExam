@@ -28,7 +28,7 @@ import java.util.Set;
  * 菜单权限表 服务类
  * </p>
  *
- * @author lengleng
+ * @author lzhphantom
  * @since 2019/2/1
  */
 public interface MenuService extends IService<Menu> {

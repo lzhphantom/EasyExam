@@ -29,10 +29,10 @@ import com.lzhphantom.core.constant.CommonConstants;
 import com.lzhphantom.core.constant.enums.MenuTypeEnum;
 import com.lzhphantom.core.exception.ErrorCodes;
 import com.lzhphantom.user.login.entity.Menu;
+import com.lzhphantom.user.login.entity.RoleMenu;
 import com.lzhphantom.userimpl.mapper.MenuMapper;
+import com.lzhphantom.userimpl.mapper.RoleMenuMapper;
 import com.lzhphantom.userimpl.service.MenuService;
-import com.pig4cloud.pig.admin.api.entity.RoleMenu;
-import com.pig4cloud.pig.admin.mapper.RoleMenuMapper;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
@@ -53,14 +53,14 @@ import java.util.stream.Collectors;
  * 菜单权限表 服务实现类
  * </p>
  *
- * @author lengleng
+ * @author lzhphantom
  * @since 2017-10-29
  */
 @Service
 @RequiredArgsConstructor
 public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements MenuService {
 
-	private final RoleMenuMapper RoleMenuMapper;
+	private final RoleMenuMapper roleMenuMapper;
 
 	@Override
 	@Cacheable(value = CacheConstants.MENU_DETAILS, key = "#roleId  + '_menu'", unless = "#result == null")
@@ -80,9 +80,9 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
 		// 查询父节点为当前节点的节点
 		List<Menu> menuList = this.list(Wrappers.<Menu>query().lambda().eq(Menu::getParentId, id));
 
-		Assert.isTrue(CollUtil.isEmpty(menuList), MsgUtils.getMessage(ErrorCodes._MENU_DELETE_EXISTING));
+		Assert.isTrue(CollUtil.isEmpty(menuList), MsgUtils.getMessage(ErrorCodes.SYS_MENU_DELETE_EXISTING));
 
-		RoleMenuMapper.delete(Wrappers.<RoleMenu>query().lambda().eq(RoleMenu::getMenuId, id));
+		roleMenuMapper.delete(Wrappers.<RoleMenu>query().lambda().eq(RoleMenu::getMenuId, id));
 		// 删除当前菜单及其子菜单
 		return this.removeById(id);
 	}

@@ -22,9 +22,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lzhphantom.user.dto.UserDTO;
 import com.lzhphantom.user.login.entity.User;
 import com.lzhphantom.user.vo.UserVO;
-import com.pig4cloud.pig.admin.api.dto.UserDTO;
-import com.pig4cloud.pig.admin.api.entity.SysUser;
-import com.pig4cloud.pig.admin.api.vo.UserVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -35,7 +32,7 @@ import java.util.List;
  * 用户表 Mapper 接口
  * </p>
  *
- * @author lengleng
+ * @author lzhphantom
  * @since 2019/2/1
  */
 @Mapper

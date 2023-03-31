@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lzhphantom All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -12,7 +12,7 @@
  * Neither the name of the pig4cloud.com developer nor the names of its
  * contributors may be used to endorse or promote products derived from
  * this software without specific prior written permission.
- * Author: lengleng (wangiegie@gmail.com)
+ * Author: lzhphantom (wangiegie@gmail.com)
  */
 
 package com.lzhphantom.userimpl.service.impl;
@@ -45,12 +45,12 @@ public class PublicParamServiceImpl extends ServiceImpl<PublicParamMapper, Publi
 
 	@Override
 	@Cacheable(value = CacheConstants.PARAMS_DETAILS, key = "#publicKey", unless = "#result == null ")
-	public String getPublicParamKeyToValue(String publicKey) {
-		PublicParam PublicParam = this.baseMapper
+	public String getSysPublicParamKeyToValue(String publicKey) {
+		PublicParam publicParam = this.baseMapper
 				.selectOne(Wrappers.<PublicParam>lambdaQuery().eq(PublicParam::getPublicKey, publicKey));
 
-		if (PublicParam != null) {
-			return PublicParam.getPublicValue();
+		if (publicParam != null) {
+			return publicParam.getPublicValue();
 		}
 		return null;
 	}
@@ -65,7 +65,7 @@ public class PublicParamServiceImpl extends ServiceImpl<PublicParamMapper, Publi
 	public LzhphantomResult updateParam(PublicParam PublicParam) {
 		PublicParam param = this.getById(PublicParam.getPublicId());
 		// 系统内置
-		if (DictTypeEnum.TEM.getType().equals(param.gettemFlag())) {
+		if (DictTypeEnum.SYSTEM.getType().equals(param.getSystemFlag())) {
 			return LzhphantomResult.failed(MsgUtils.getMessage(ErrorCodes.SYS_PARAM_DELETE_SYSTEM));
 		}
 		return LzhphantomResult.ok(this.updateById(PublicParam));

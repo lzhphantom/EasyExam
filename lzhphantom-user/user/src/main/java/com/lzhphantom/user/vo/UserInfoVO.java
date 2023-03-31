@@ -17,7 +17,7 @@ public class UserInfoVO implements Serializable {
     /**
      * 用户基本信息
      */
-    private User sysUser;
+    private User user;
 
     /**
      * 权限标识集合

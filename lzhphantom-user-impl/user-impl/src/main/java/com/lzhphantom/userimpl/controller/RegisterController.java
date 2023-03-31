@@ -1,10 +1,10 @@
 package com.lzhphantom.userimpl.controller;
 
-import com.pig4cloud.pig.admin.api.dto.UserDTO;
-import com.pig4cloud.pig.admin.service.SysUserService;
-import com.pig4cloud.pig.common.core.util.R;
-import com.pig4cloud.pig.common.log.annotation.SysLog;
-import com.pig4cloud.pig.common.security.annotation.Inner;
+import com.lzhphantom.core.common.util.LzhphantomResult;
+import com.lzhphantom.log.annotation.LzhphantomLog;
+import com.lzhphantom.security.annotation.Inner;
+import com.lzhphantom.user.dto.UserDTO;
+import com.lzhphantom.userimpl.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @author lengleng
+ * @author lzhphantom
  * @date 2022/3/30
  *
  * 客户端注册功能 register.user = false
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @ConditionalOnProperty(name = "register.user", matchIfMissing = true)
 public class RegisterController {
 
-	private final SysUserService userService;
+	private final UserService userService;
 
 	/**
 	 * 注册用户
@@ -32,9 +32,9 @@ public class RegisterController {
 	 * @return success/false
 	 */
 	@Inner(value = false)
-	@SysLog("注册用户")
+	@LzhphantomLog("注册用户")
 	@PostMapping("/user")
-	public R<Boolean> registerUser(@RequestBody UserDTO userDto) {
+	public LzhphantomResult<Boolean> registerUser(@RequestBody UserDTO userDto) {
 		return userService.registerUser(userDto);
 	}
 

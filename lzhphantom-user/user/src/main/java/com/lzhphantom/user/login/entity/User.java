@@ -1,92 +1,73 @@
 package com.lzhphantom.user.login.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lzhphantom.core.common.entity.BaseEntity;
-import jakarta.persistence.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
-import org.hibernate.envers.Audited;
 
-import java.util.Set;
-
-@Entity
-@Table(name = "LZHPHANTOM_USER")
 @Data
-@Accessors(chain = true)
-@Audited
 @EqualsAndHashCode(callSuper = true)
 public class User extends BaseEntity {
+    private static final long serialVersionUID = 1L;
+
     /**
      * 主键ID
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @TableId(value = "user_id", type = IdType.ASSIGN_ID)
+    @Schema(description = "主键id")
+    private Long userId;
 
     /**
      * 用户名
      */
-    @Column(name = "username", nullable = false)
+    @Schema(title = "用户名")
     private String username;
 
     /**
      * 密码
      */
-    @Column(name = "password", nullable = false)
+    @Schema(description = "密码")
     private String password;
 
     /**
      * 随机盐
      */
     @JsonIgnore
-    @Column(name = "randomSalt", nullable = false)
+    @Schema(description = "随机盐")
     private String salt;
-
-    /**
-     * 邮箱
-     */
-    @Column(name = "email", nullable = false)
-    private String email;
-
-    /**
-     * 手机号
-     */
-    @Column(name = "phone", nullable = false)
-    private String phone;
 
     /**
      * 锁定标记
      */
-    @Column(name = "lockFlag", nullable = false)
+    @Schema(description = "锁定标记")
     private String lockFlag;
+
+    /**
+     * 手机号
+     */
+    @Schema(description = "手机号")
+    private String phone;
+
     /**
      * 头像
      */
-    @Column(name = "avatarAddress", nullable = false)
+    @Schema(description = "头像地址")
     private String avatar;
-    /**
-     * 部门
-     */
-    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private Dept dept;
 
     /**
-     * 岗位
+     * 部门ID
      */
-    @ManyToMany(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
-    @JoinTable(name = "LZHPHANTOM_USER_POST"
-    ,joinColumns = {@JoinColumn(name = "USER_ID",referencedColumnName = "ID")}
-    ,inverseJoinColumns = {@JoinColumn(name = "POST_ID",referencedColumnName = "ID")})
-    private Set<Post> posts;
+    @Schema(description = "用户所属部门id")
+    private Long deptId;
 
     /**
-     * 角色
+     * 0-正常，1-删除
      */
-    @ManyToMany(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
-    @JoinTable(name = "LZHPHANTOM_USER_ROLE"
-            ,joinColumns = {@JoinColumn(name = "USER_ID",referencedColumnName = "ID")}
-            ,inverseJoinColumns = {@JoinColumn(name = "ROLE_ID",referencedColumnName = "ID")})
-    private Set<Role> roles;
+    @TableLogic
+    private String delFlag;
 
 }

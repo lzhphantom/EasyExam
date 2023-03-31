@@ -1,58 +1,65 @@
 package com.lzhphantom.user.login.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.lzhphantom.core.common.entity.BaseEntity;
-import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
-import org.hibernate.envers.Audited;
 
 /**
  * 文件管理
  *
  * @author lzhphantom
  */
-@Entity
-@Table(name = "LZHPHANTOM_USER")
+/**
+ * 文件管理
+ *
+ * @author Luckly
+ * @date 2019-06-18 17:18:42
+ */
 @Data
-@Accessors(chain = true)
-@Audited
 @EqualsAndHashCode(callSuper = true)
 public class FileManage extends BaseEntity {
     /**
      * 主键ID
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * 编号
+     */
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     /**
      * 文件名
      */
-    @Column(name = "fileName")
     private String fileName;
 
     /**
      * 原文件名
      */
-    @Column(name = "original")
     private String original;
 
     /**
      * 容器名称
      */
-    @Column(name = "bucketName")
     private String bucketName;
 
     /**
      * 文件类型
      */
-    @Column(name = "type")
     private String type;
 
     /**
      * 文件大小
      */
-    @Column(name = "fileSize")
     private Long fileSize;
+
+    /**
+     * 删除标识：1-删除，0-正常
+     */
+    @TableLogic
+    private Integer delFlag;
 }

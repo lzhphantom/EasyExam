@@ -17,9 +17,9 @@
 package com.lzhphantom.userimpl.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.lzhphantom.user.login.entity.UserRole;
 import com.lzhphantom.userimpl.mapper.UserRoleMapper;
 import com.lzhphantom.userimpl.service.UserRoleService;
-import com.pig4cloud.pig.admin.api.entity.UserRole;
 import org.springframework.stereotype.Service;
 
 /**
@@ -27,7 +27,7 @@ import org.springframework.stereotype.Service;
  * 用户角色表 服务实现类
  * </p>
  *
- * @author lengleng
+ * @author lzhphantom
  * @since 2019/2/1
  */
 @Service

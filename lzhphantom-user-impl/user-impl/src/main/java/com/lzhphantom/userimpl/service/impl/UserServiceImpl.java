@@ -39,8 +39,6 @@ import com.lzhphantom.userimpl.mapper.*;
 import com.lzhphantom.userimpl.service.AppService;
 import com.lzhphantom.userimpl.service.MenuService;
 import com.lzhphantom.userimpl.service.UserService;
-import com.pig4cloud.pig.admin.api.entity.*;
-import com.pig4cloud.pig.admin.mapper.*;
 import com.pig4cloud.plugin.excel.vo.ErrorMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -53,13 +51,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * @author lengleng
- * @date 2019/2/1
+ * @author lzhphantom
  */
 @Slf4j
 @Service
@@ -100,16 +98,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 			userRole.setUserId(User.getUserId());
 			userRole.setRoleId(roleId);
 			return userRole;
-		}).forEach(UserRoleMapper::insert);
+		}).forEach(userRoleMapper::insert);
 		// 保存用户岗位信息
-		Optional.ofNullable(userDto.getPost()).ifPresent(posts -> {
-			posts.stream().map(postId -> {
-				UserPost userPost = new UserPost();
-				userPost.setUserId(User.getUserId());
-				userPost.setPostId(postId);
-				return userPost;
-			}).forEach(UserPostMapper::insert);
-		});
+		Optional.ofNullable(userDto.getPost()).ifPresent(posts -> posts.stream().map(postId -> {
+			UserPost userPost = new UserPost();
+			userPost.setUserId(User.getUserId());
+			userPost.setPostId(postId);
+			return userPost;
+		}).forEach(userPostMapper::insert));
 		return Boolean.TRUE;
 	}
 
@@ -124,16 +120,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 		UserInfo userInfo = new UserInfo();
 		userInfo.setUser(User);
 		// 设置角色列表
-		List<Role> roleList = RoleMapper.listRolesByUserId(User.getUserId());
+		List<Role> roleList = roleMapper.listRolesByUserId(User.getUserId());
 		userInfo.setRoleList(roleList);
 		// 设置角色列表 （ID）
 		List<Long> roleIds = roleList.stream().map(Role::getRoleId).collect(Collectors.toList());
 		userInfo.setRoles(ArrayUtil.toArray(roleIds, Long.class));
 		// 设置岗位列表
-		List<Post> postList = PostMapper.listPostsByUserId(User.getUserId());
+		List<Post> postList = postMapper.listPostsByUserId(User.getUserId());
 		userInfo.setPostList(postList);
 		// 设置权限列表（menu.permission）
-		Set<String> permissions = roleIds.stream().map(MenuService::findMenuByRoleId).flatMap(Collection::stream)
+		Set<String> permissions = roleIds.stream().map(menuService::findMenuByRoleId).flatMap(Collection::stream)
 				.filter(m -> MenuTypeEnum.BUTTON.getType().equals(m.getType())).map(Menu::getPermission)
 				.filter(StrUtil::isNotBlank).collect(Collectors.toSet());
 		userInfo.setPermissions(ArrayUtil.toArray(permissions, String.class));
@@ -171,9 +167,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 	@Override
 	@CacheEvict(value = CacheConstants.USER_DETAILS, key = "#User.username")
 	public Boolean removeUserById(User User) {
-		UserRoleMapper.deleteByUserId(User.getUserId());
+		userRoleMapper.deleteByUserId(User.getUserId());
 		// 删除用户职位关系
-		UserPostMapper.delete(Wrappers.<UserPost>lambdaQuery().eq(UserPost::getUserId, User.getUserId()));
+		userPostMapper.delete(Wrappers.<UserPost>lambdaQuery().eq(UserPost::getUserId, User.getUserId()));
 		this.removeById(User.getUserId());
 		return Boolean.TRUE;
 	}
@@ -207,27 +203,27 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 	@Transactional(rollbackFor = Exception.class)
 	@CacheEvict(value = CacheConstants.USER_DETAILS, key = "#userDto.username")
 	public LzhphantomResult<Boolean> updateUser(UserDTO userDto) {
-		User User = new User();
-		BeanUtils.copyProperties(userDto, User);
-		User.setUpdateTime(LocalDateTime.now());
+		User user = new User();
+		BeanUtils.copyProperties(userDto, user);
+		user.setUpdateDt(Timestamp.valueOf(LocalDateTime.now()));
 
 		if (StrUtil.isNotBlank(userDto.getPassword())) {
-			User.setPassword(ENCODER.encode(userDto.getPassword()));
+			user.setPassword(ENCODER.encode(userDto.getPassword()));
 		}
-		this.updateById(User);
+		this.updateById(user);
 
-		UserRoleMapper
+		userRoleMapper
 				.delete(Wrappers.<UserRole>update().lambda().eq(UserRole::getUserId, userDto.getUserId()));
 		userDto.getRole().forEach(roleId -> {
 			UserRole userRole = new UserRole();
-			userRole.setUserId(User.getUserId());
+			userRole.setUserId(user.getUserId());
 			userRole.setRoleId(roleId);
 			userRole.insert();
 		});
-		UserPostMapper.delete(Wrappers.<UserPost>lambdaQuery().eq(UserPost::getUserId, userDto.getUserId()));
+		userPostMapper.delete(Wrappers.<UserPost>lambdaQuery().eq(UserPost::getUserId, userDto.getUserId()));
 		userDto.getPost().forEach(postId -> {
 			UserPost userPost = new UserPost();
-			userPost.setUserId(User.getUserId());
+			userPost.setUserId(user.getUserId());
 			userPost.setPostId(postId);
 			userPost.insert();
 		});
@@ -241,9 +237,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 	 */
 	@Override
 	public List<User> listAncestorUsersByUsername(String username) {
-		User User = this.getOne(Wrappers.<User>query().lambda().eq(User::getUsername, username));
+		User user = this.getOne(Wrappers.<User>query().lambda().eq(User::getUsername, username));
 
-		Dept Dept = DeptMapper.selectById(User.getDeptId());
+		Dept Dept = deptMapper.selectById(user.getDeptId());
 		if (Dept == null) {
 			return null;
 		}
@@ -261,8 +257,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 	@Override
 	public List<UserExcelVO> listUser(UserDTO userDTO) {
 		List<UserVO> voList = baseMapper.selectVoList(userDTO);
-		// 转换成execl 对象输出
-		List<UserExcelVO> userExcelVOList = voList.stream().map(userVO -> {
+		// 转换成excel 对象输出
+		return voList.stream().map(userVO -> {
 			UserExcelVO excelVO = new UserExcelVO();
 			BeanUtils.copyProperties(userVO, excelVO);
 			String roleNameList = userVO.getRoleList().stream().map(Role::getRoleName)
@@ -273,7 +269,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 			excelVO.setPostNameList(postNameList);
 			return excelVO;
 		}).collect(Collectors.toList());
-		return userExcelVOList;
 	}
 
 	/**
@@ -289,18 +284,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
 		// 个性化校验逻辑
 		List<User> userList = this.list();
-		List<Dept> deptList = DeptMapper.selectList(Wrappers.emptyWrapper());
-		List<Role> roleList = RoleMapper.selectList(Wrappers.emptyWrapper());
-		List<Post> postList = PostMapper.selectList(Wrappers.emptyWrapper());
+		List<Dept> deptList = deptMapper.selectList(Wrappers.emptyWrapper());
+		List<Role> roleList = roleMapper.selectList(Wrappers.emptyWrapper());
+		List<Post> postList = postMapper.selectList(Wrappers.emptyWrapper());
 
 		// 执行数据插入操作 组装 UserDto
 		for (UserExcelVO excel : excelVOList) {
 			Set<String> errorMsg = new HashSet<>();
 			// 校验用户名是否存在
-			boolean exsitUserName = userList.stream()
+			boolean existUserName = userList.stream()
 					.anyMatch(User -> excel.getUsername().equals(User.getUsername()));
 
-			if (exsitUserName) {
+			if (existUserName) {
 				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_USER_USERNAME_EXISTING, excel.getUsername()));
 			}
 
@@ -389,22 +384,22 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 		}
 
 		// 判断用户名是否存在
-		User User = this.getOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, userDto.getUsername()));
-		if (User != null) {
+		User user = this.getOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, userDto.getUsername()));
+		if (user != null) {
 			return LzhphantomResult.failed(MsgUtils.getMessage(ErrorCodes.SYS_USER_USERNAME_EXISTING, userDto.getUsername()));
 		}
 
 		// 获取默认角色编码
 		String defaultRole = ParamResolver.getStr("USER_DEFAULT_ROLE");
 		// 默认角色
-		Role Role = RoleMapper
+		Role role = roleMapper
 				.selectOne(Wrappers.<Role>lambdaQuery().eq(Role::getRoleCode, defaultRole));
 
-		if (Role == null) {
+		if (role == null) {
 			return LzhphantomResult.failed(MsgUtils.getMessage(ErrorCodes.SYS_PARAM_CONFIG_ERROR, "USER_DEFAULT_ROLE"));
 		}
 
-		userDto.setRole(Collections.singletonList(Role.getRoleId()));
+		userDto.setRole(Collections.singletonList(role.getRoleId()));
 		return LzhphantomResult.ok(saveUser(userDto));
 	}
 

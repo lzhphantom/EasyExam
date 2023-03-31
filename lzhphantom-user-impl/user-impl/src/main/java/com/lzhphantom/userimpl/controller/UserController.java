@@ -21,20 +21,19 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.pig4cloud.pig.admin.api.dto.UserDTO;
-import com.pig4cloud.pig.admin.api.dto.UserInfo;
-import com.pig4cloud.pig.admin.api.entity.SysUser;
-import com.pig4cloud.pig.admin.api.vo.UserExcelVO;
-import com.pig4cloud.pig.admin.api.vo.UserInfoVO;
-import com.pig4cloud.pig.admin.api.vo.UserVO;
-import com.pig4cloud.pig.admin.service.SysUserService;
-import com.pig4cloud.pig.common.core.exception.ErrorCodes;
-import com.pig4cloud.pig.common.core.util.MsgUtils;
-import com.pig4cloud.pig.common.core.util.R;
-import com.pig4cloud.pig.common.log.annotation.SysLog;
-import com.pig4cloud.pig.common.security.annotation.Inner;
-import com.pig4cloud.pig.common.security.util.SecurityUtils;
-import com.pig4cloud.pig.common.xss.core.XssCleanIgnore;
+import com.lzhphantom.core.common.util.LzhphantomResult;
+import com.lzhphantom.core.common.util.MsgUtils;
+import com.lzhphantom.core.exception.ErrorCodes;
+import com.lzhphantom.log.annotation.LzhphantomLog;
+import com.lzhphantom.security.annotation.Inner;
+import com.lzhphantom.security.util.SecurityUtils;
+import com.lzhphantom.user.dto.UserDTO;
+import com.lzhphantom.user.dto.UserInfo;
+import com.lzhphantom.user.login.entity.User;
+import com.lzhphantom.user.vo.UserExcelVO;
+import com.lzhphantom.user.vo.UserInfoVO;
+import com.lzhphantom.user.vo.UserVO;
+import com.lzhphantom.userimpl.service.UserService;
 import com.pig4cloud.plugin.excel.annotation.RequestExcel;
 import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -50,7 +49,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * @author lengleng
+ * @author lzhphantom
  * @date 2019/2/1
  */
 @RestController
@@ -60,25 +59,25 @@ import java.util.Set;
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class UserController {
 
-	private final SysUserService userService;
+	private final UserService userService;
 
 	/**
 	 * 获取当前用户全部信息
 	 * @return 用户信息
 	 */
 	@GetMapping(value = { "/info" })
-	public R<UserInfoVO> info() {
+	public LzhphantomResult<UserInfoVO> info() {
 		String username = SecurityUtils.getUser().getUsername();
-		SysUser user = userService.getOne(Wrappers.<SysUser>query().lambda().eq(SysUser::getUsername, username));
+		User user = userService.getOne(Wrappers.<User>query().lambda().eq(User::getUsername, username));
 		if (user == null) {
-			return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_USER_QUERY_ERROR));
+			return LzhphantomResult.failed(MsgUtils.getMessage(ErrorCodes.SYS_USER_QUERY_ERROR));
 		}
 		UserInfo userInfo = userService.getUserInfo(user);
 		UserInfoVO vo = new UserInfoVO();
-		vo.setSysUser(userInfo.getSysUser());
+		vo.setUser(userInfo.getUser());
 		vo.setRoles(userInfo.getRoles());
 		vo.setPermissions(userInfo.getPermissions());
-		return R.ok(vo);
+		return LzhphantomResult.ok(vo);
 	}
 
 	/**
@@ -87,12 +86,12 @@ public class UserController {
 	 */
 	@Inner
 	@GetMapping("/info/{username}")
-	public R<UserInfo> info(@PathVariable String username) {
-		SysUser user = userService.getOne(Wrappers.<SysUser>query().lambda().eq(SysUser::getUsername, username));
+	public LzhphantomResult<UserInfo> info(@PathVariable String username) {
+		User user = userService.getOne(Wrappers.<User>query().lambda().eq(User::getUsername, username));
 		if (user == null) {
-			return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_USER_USERINFO_EMPTY, username));
+			return LzhphantomResult.failed(MsgUtils.getMessage(ErrorCodes.SYS_USER_USERINFO_EMPTY, username));
 		}
-		return R.ok(userService.getUserInfo(user));
+		return LzhphantomResult.ok(userService.getUserInfo(user));
 	}
 
 	/**
@@ -102,8 +101,8 @@ public class UserController {
 	 */
 	@Inner
 	@GetMapping("/ids")
-	public R<List<Long>> listUserIdByDeptIds(@RequestParam("deptIds") Set<Long> deptIds) {
-		return R.ok(userService.listUserIdByDeptIds(deptIds));
+	public LzhphantomResult<List<Long>> listUserIdByDeptIds(@RequestParam("deptIds") Set<Long> deptIds) {
+		return LzhphantomResult.ok(userService.listUserIdByDeptIds(deptIds));
 	}
 
 	/**
@@ -112,8 +111,8 @@ public class UserController {
 	 * @return 用户信息
 	 */
 	@GetMapping("/{id:\\d+}")
-	public R<UserVO> user(@PathVariable Long id) {
-		return R.ok(userService.getUserVoById(id));
+	public LzhphantomResult<UserVO> user(@PathVariable Long id) {
+		return LzhphantomResult.ok(userService.getUserVoById(id));
 	}
 
 	/**
@@ -123,12 +122,12 @@ public class UserController {
 	 */
 	@Inner(false)
 	@GetMapping("/check/exsit")
-	public R<Boolean> isExsit(UserDTO userDTO) {
-		List<SysUser> sysUserList = userService.list(new QueryWrapper<>(userDTO));
+	public LzhphantomResult<Boolean> isExsit(UserDTO userDTO) {
+		List<User> sysUserList = userService.list(new QueryWrapper<>(userDTO));
 		if (CollUtil.isNotEmpty(sysUserList)) {
-			return R.ok(Boolean.TRUE, MsgUtils.getMessage(ErrorCodes.SYS_USER_EXISTING));
+			return LzhphantomResult.ok(Boolean.TRUE, MsgUtils.getMessage(ErrorCodes.SYS_USER_EXISTING));
 		}
-		return R.ok(Boolean.FALSE);
+		return LzhphantomResult.ok(Boolean.FALSE);
 	}
 
 	/**
@@ -136,12 +135,12 @@ public class UserController {
 	 * @param id ID
 	 * @return R
 	 */
-	@SysLog("删除用户信息")
+	@LzhphantomLog("删除用户信息")
 	@DeleteMapping("/{id:\\d+}")
 	@PreAuthorize("@pms.hasPermission('sys_user_del')")
-	public R<Boolean> userDel(@PathVariable Long id) {
-		SysUser sysUser = userService.getById(id);
-		return R.ok(userService.removeUserById(sysUser));
+	public LzhphantomResult<Boolean> userDel(@PathVariable Long id) {
+		User sysUser = userService.getById(id);
+		return LzhphantomResult.ok(userService.removeUserById(sysUser));
 	}
 
 	/**
@@ -149,12 +148,12 @@ public class UserController {
 	 * @param userDto 用户信息
 	 * @return success/false
 	 */
-	@SysLog("添加用户")
+	@LzhphantomLog("添加用户")
 	@PostMapping
 	@XssCleanIgnore({ "password" })
 	@PreAuthorize("@pms.hasPermission('sys_user_add')")
-	public R<Boolean> user(@RequestBody UserDTO userDto) {
-		return R.ok(userService.saveUser(userDto));
+	public LzhphantomResult<Boolean> user(@RequestBody UserDTO userDto) {
+		return LzhphantomResult.ok(userService.saveUser(userDto));
 	}
 
 	/**
@@ -162,11 +161,11 @@ public class UserController {
 	 * @param userDto 用户信息
 	 * @return R
 	 */
-	@SysLog("更新用户信息")
+	@LzhphantomLog("更新用户信息")
 	@PutMapping
 	@XssCleanIgnore({ "password" })
 	@PreAuthorize("@pms.hasPermission('sys_user_edit')")
-	public R<Boolean> updateUser(@Valid @RequestBody UserDTO userDto) {
+	public LzhphantomResult<Boolean> updateUser(@Valid @RequestBody UserDTO userDto) {
 		return userService.updateUser(userDto);
 	}
 
@@ -177,8 +176,8 @@ public class UserController {
 	 * @return 用户集合
 	 */
 	@GetMapping("/page")
-	public R<IPage<UserVO>> getUserPage(Page page, UserDTO userDTO) {
-		return R.ok(userService.getUserWithRolePage(page, userDTO));
+	public LzhphantomResult<IPage<UserVO>> getUserPage(Page page, UserDTO userDTO) {
+		return LzhphantomResult.ok(userService.getUserWithRolePage(page, userDTO));
 	}
 
 	/**
@@ -186,10 +185,10 @@ public class UserController {
 	 * @param userDto userDto
 	 * @return success/false
 	 */
-	@SysLog("修改个人信息")
+	@LzhphantomLog("修改个人信息")
 	@PutMapping("/edit")
 	@XssCleanIgnore({ "password", "newpassword1" })
-	public R<Boolean> updateUserInfo(@Valid @RequestBody UserDTO userDto) {
+	public LzhphantomResult<Boolean> updateUserInfo(@Valid @RequestBody UserDTO userDto) {
 		userDto.setUsername(SecurityUtils.getUser().getUsername());
 		return userService.updateUserInfo(userDto);
 	}
@@ -199,8 +198,8 @@ public class UserController {
 	 * @return 上级部门用户列表
 	 */
 	@GetMapping("/ancestor/{username}")
-	public R<List<SysUser>> listAncestorUsers(@PathVariable String username) {
-		return R.ok(userService.listAncestorUsersByUsername(username));
+	public LzhphantomResult<List<User>> listAncestorUsers(@PathVariable String username) {
+		return LzhphantomResult.ok(userService.listAncestorUsersByUsername(username));
 	}
 
 	/**
@@ -223,7 +222,7 @@ public class UserController {
 	 */
 	@PostMapping("/import")
 	@PreAuthorize("@pms.hasPermission('sys_user_import_export')")
-	public R importUser(@RequestExcel List<UserExcelVO> excelVOList, BindingResult bindingResult) {
+	public LzhphantomResult importUser(@RequestExcel List<UserExcelVO> excelVOList, BindingResult bindingResult) {
 		return userService.importUser(excelVOList, bindingResult);
 	}
 

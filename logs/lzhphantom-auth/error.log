@@ -179,3 +179,18 @@ Action:
 
 Consider defining a bean of type 'org.springframework.data.redis.core.RedisTemplate' in your configuration.
 
+2023-03-31 19:46:51,878 [main] ERROR [o.s.b.diagnostics.LoggingFailureAnalysisReporter] LoggingFailureAnalysisReporter.java:40 - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in com.lzhphantom.security.service.LzhphantomRedisOAuth2AuthorizationService required a bean of type 'org.springframework.data.redis.core.RedisTemplate' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'org.springframework.data.redis.core.RedisTemplate' in your configuration.
+

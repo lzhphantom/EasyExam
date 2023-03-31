@@ -20,13 +20,13 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.pig4cloud.pig.admin.api.entity.SysDict;
-import com.pig4cloud.pig.admin.api.entity.SysDictItem;
-import com.pig4cloud.pig.admin.service.SysDictItemService;
-import com.pig4cloud.pig.admin.service.SysDictService;
-import com.pig4cloud.pig.common.core.constant.CacheConstants;
-import com.pig4cloud.pig.common.core.util.R;
-import com.pig4cloud.pig.common.log.annotation.SysLog;
+import com.lzhphantom.core.common.util.LzhphantomResult;
+import com.lzhphantom.core.constant.CacheConstants;
+import com.lzhphantom.log.annotation.LzhphantomLog;
+import com.lzhphantom.user.login.entity.Dict;
+import com.lzhphantom.user.login.entity.DictItem;
+import com.lzhphantom.userimpl.service.DictItemService;
+import com.lzhphantom.userimpl.service.DictService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -44,7 +44,7 @@ import java.util.List;
  * 字典表 前端控制器
  * </p>
  *
- * @author lengleng
+ * @author lzhphantom
  * @since 2019-03-19
  */
 @RestController
@@ -54,9 +54,9 @@ import java.util.List;
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class DictController {
 
-	private final SysDictItemService sysDictItemService;
+	private final DictItemService sysDictItemService;
 
-	private final SysDictService sysDictService;
+	private final DictService sysDictService;
 
 	/**
 	 * 通过ID查询字典信息
@@ -64,8 +64,8 @@ public class DictController {
 	 * @return 字典信息
 	 */
 	@GetMapping("/{id:\\d+}")
-	public R<SysDict> getById(@PathVariable Long id) {
-		return R.ok(sysDictService.getById(id));
+	public LzhphantomResult<Dict> getById(@PathVariable Long id) {
+		return LzhphantomResult.ok(sysDictService.getById(id));
 	}
 
 	/**
@@ -74,9 +74,9 @@ public class DictController {
 	 * @return 分页对象
 	 */
 	@GetMapping("/page")
-	public R<IPage<SysDict>> getDictPage(Page page, SysDict sysDict) {
-		return R.ok(sysDictService.page(page, Wrappers.<SysDict>lambdaQuery()
-				.like(StrUtil.isNotBlank(sysDict.getDictKey()), SysDict::getDictKey, sysDict.getDictKey())));
+	public LzhphantomResult<IPage<Dict>> getDictPage(Page page, Dict sysDict) {
+		return LzhphantomResult.ok(sysDictService.page(page, Wrappers.<Dict>lambdaQuery()
+				.like(StrUtil.isNotBlank(sysDict.getDictKey()), Dict::getDictKey, sysDict.getDictKey())));
 	}
 
 	/**
@@ -86,8 +86,8 @@ public class DictController {
 	 */
 	@GetMapping("/key/{key}")
 	@Cacheable(value = CacheConstants.DICT_DETAILS, key = "#key")
-	public R<List<SysDictItem>> getDictByKey(@PathVariable String key) {
-		return R.ok(sysDictItemService.list(Wrappers.<SysDictItem>query().lambda().eq(SysDictItem::getDictKey, key)));
+	public LzhphantomResult<List<DictItem>> getDictByKey(@PathVariable String key) {
+		return LzhphantomResult.ok(sysDictItemService.list(Wrappers.<DictItem>query().lambda().eq(DictItem::getDictKey, key)));
 	}
 
 	/**
@@ -95,11 +95,11 @@ public class DictController {
 	 * @param sysDict 字典信息
 	 * @return success、false
 	 */
-	@SysLog("添加字典")
+	@LzhphantomLog("添加字典")
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_dict_add')")
-	public R<Boolean> save(@Valid @RequestBody SysDict sysDict) {
-		return R.ok(sysDictService.save(sysDict));
+	public LzhphantomResult<Boolean> save(@Valid @RequestBody Dict sysDict) {
+		return LzhphantomResult.ok(sysDictService.save(sysDict));
 	}
 
 	/**
@@ -107,12 +107,12 @@ public class DictController {
 	 * @param id ID
 	 * @return R
 	 */
-	@SysLog("删除字典")
+	@LzhphantomLog("删除字典")
 	@DeleteMapping("/{id:\\d+}")
 	@PreAuthorize("@pms.hasPermission('sys_dict_del')")
-	public R removeById(@PathVariable Long id) {
+	public LzhphantomResult removeById(@PathVariable Long id) {
 		sysDictService.removeDict(id);
-		return R.ok();
+		return LzhphantomResult.ok();
 	}
 
 	/**
@@ -121,11 +121,11 @@ public class DictController {
 	 * @return success/false
 	 */
 	@PutMapping
-	@SysLog("修改字典")
+	@LzhphantomLog("修改字典")
 	@PreAuthorize("@pms.hasPermission('sys_dict_edit')")
-	public R updateById(@Valid @RequestBody SysDict sysDict) {
+	public LzhphantomResult updateById(@Valid @RequestBody Dict sysDict) {
 		sysDictService.updateDict(sysDict);
-		return R.ok();
+		return LzhphantomResult.ok();
 	}
 
 	/**
@@ -135,8 +135,8 @@ public class DictController {
 	 * @return
 	 */
 	@GetMapping("/item/page")
-	public R<IPage<SysDictItem>> getSysDictItemPage(Page page, SysDictItem sysDictItem) {
-		return R.ok(sysDictItemService.page(page, Wrappers.query(sysDictItem)));
+	public LzhphantomResult<IPage<DictItem>> getDictItemPage(Page page, DictItem sysDictItem) {
+		return LzhphantomResult.ok(sysDictItemService.page(page, Wrappers.query(sysDictItem)));
 	}
 
 	/**
@@ -145,8 +145,8 @@ public class DictController {
 	 * @return R
 	 */
 	@GetMapping("/item/{id:\\d+}")
-	public R<SysDictItem> getDictItemById(@PathVariable("id") Long id) {
-		return R.ok(sysDictItemService.getById(id));
+	public LzhphantomResult<DictItem> getDictItemById(@PathVariable("id") Long id) {
+		return LzhphantomResult.ok(sysDictItemService.getById(id));
 	}
 
 	/**
@@ -154,11 +154,11 @@ public class DictController {
 	 * @param sysDictItem 字典项
 	 * @return R
 	 */
-	@SysLog("新增字典项")
+	@LzhphantomLog("新增字典项")
 	@PostMapping("/item")
 	@CacheEvict(value = CacheConstants.DICT_DETAILS, allEntries = true)
-	public R<Boolean> save(@RequestBody SysDictItem sysDictItem) {
-		return R.ok(sysDictItemService.save(sysDictItem));
+	public LzhphantomResult<Boolean> save(@RequestBody DictItem sysDictItem) {
+		return LzhphantomResult.ok(sysDictItemService.save(sysDictItem));
 	}
 
 	/**
@@ -166,11 +166,11 @@ public class DictController {
 	 * @param sysDictItem 字典项
 	 * @return R
 	 */
-	@SysLog("修改字典项")
+	@LzhphantomLog("修改字典项")
 	@PutMapping("/item")
-	public R updateById(@RequestBody SysDictItem sysDictItem) {
+	public LzhphantomResult updateById(@RequestBody DictItem sysDictItem) {
 		sysDictItemService.updateDictItem(sysDictItem);
-		return R.ok();
+		return LzhphantomResult.ok();
 	}
 
 	/**
@@ -178,19 +178,19 @@ public class DictController {
 	 * @param id id
 	 * @return R
 	 */
-	@SysLog("删除字典项")
+	@LzhphantomLog("删除字典项")
 	@DeleteMapping("/item/{id:\\d+}")
-	public R removeDictItemById(@PathVariable Long id) {
+	public LzhphantomResult removeDictItemById(@PathVariable Long id) {
 		sysDictItemService.removeDictItem(id);
-		return R.ok();
+		return LzhphantomResult.ok();
 	}
 
-	@SysLog("清除字典缓存")
+	@LzhphantomLog("清除字典缓存")
 	@DeleteMapping("/cache")
 	@PreAuthorize("@pms.hasPermission('sys_dict_del')")
-	public R clearDictCache() {
+	public LzhphantomResult clearDictCache() {
 		sysDictService.clearDictCache();
-		return R.ok();
+		return LzhphantomResult.ok();
 	}
 
 }

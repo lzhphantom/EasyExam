@@ -16,8 +16,8 @@
 
 package com.lzhphantom.userimpl.controller;
 
+import com.lzhphantom.core.common.util.LzhphantomResult;
 import com.pig4cloud.pig.admin.api.feign.RemoteTokenService;
-import com.pig4cloud.pig.common.core.util.R;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 /**
- * @author lengleng
+ * @author lzhphantom
  * @date 2018/9/4 getTokenPage 管理
  */
 @RestController
@@ -46,7 +46,7 @@ public class TokenController {
 	 * @return token集合
 	 */
 	@GetMapping("/page")
-	public R token(@RequestParam Map<String, Object> params) {
+	public LzhphantomResult token(@RequestParam Map<String, Object> params) {
 		return remoteTokenService.getTokenPage(params);
 	}
 
@@ -57,7 +57,7 @@ public class TokenController {
 	 */
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@pms.hasPermission('sys_token_del')")
-	public R<Boolean> delete(@PathVariable String id) {
+	public LzhphantomResult<Boolean> delete(@PathVariable String id) {
 		return remoteTokenService.removeToken(id);
 	}
 
