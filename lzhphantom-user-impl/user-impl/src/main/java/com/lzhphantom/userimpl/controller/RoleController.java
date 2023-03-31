@@ -19,13 +19,13 @@ package com.lzhphantom.userimpl.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.pig4cloud.pig.admin.api.entity.SysRole;
-import com.pig4cloud.pig.admin.api.vo.RoleExcelVO;
-import com.pig4cloud.pig.admin.api.vo.RoleVo;
-import com.pig4cloud.pig.admin.service.SysRoleMenuService;
-import com.pig4cloud.pig.admin.service.SysRoleService;
-import com.pig4cloud.pig.common.core.util.R;
-import com.pig4cloud.pig.common.log.annotation.SysLog;
+import com.lzhphantom.core.common.util.LzhphantomResult;
+import com.lzhphantom.log.annotation.LzhphantomLog;
+import com.lzhphantom.user.login.entity.Role;
+import com.lzhphantom.user.vo.RoleExcelVO;
+import com.lzhphantom.user.vo.RoleVo;
+import com.lzhphantom.userimpl.service.RoleMenuService;
+import com.lzhphantom.userimpl.service.RoleService;
 import com.pig4cloud.plugin.excel.annotation.RequestExcel;
 import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -40,7 +40,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * @author lengleng
+ * @author lzhphantom
  * @date 2019/2/1
  */
 @RestController
@@ -50,9 +50,9 @@ import java.util.List;
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class RoleController {
 
-	private final SysRoleService sysRoleService;
+	private final RoleService sysRoleService;
 
-	private final SysRoleMenuService sysRoleMenuService;
+	private final RoleMenuService sysRoleMenuService;
 
 	/**
 	 * 通过ID查询角色信息
@@ -60,8 +60,8 @@ public class RoleController {
 	 * @return 角色信息
 	 */
 	@GetMapping("/{id:\\d+}")
-	public R<SysRole> getById(@PathVariable Long id) {
-		return R.ok(sysRoleService.getById(id));
+	public LzhphantomResult<Role> getById(@PathVariable Long id) {
+		return LzhphantomResult.ok(sysRoleService.getById(id));
 	}
 
 	/**
@@ -69,11 +69,11 @@ public class RoleController {
 	 * @param sysRole 角色信息
 	 * @return success、false
 	 */
-	@SysLog("添加角色")
+	@LzhphantomLog("添加角色")
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_role_add')")
-	public R<Boolean> save(@Valid @RequestBody SysRole sysRole) {
-		return R.ok(sysRoleService.save(sysRole));
+	public LzhphantomResult<Boolean> save(@Valid @RequestBody Role sysRole) {
+		return LzhphantomResult.ok(sysRoleService.save(sysRole));
 	}
 
 	/**
@@ -81,11 +81,11 @@ public class RoleController {
 	 * @param sysRole 角色信息
 	 * @return success/false
 	 */
-	@SysLog("修改角色")
+	@LzhphantomLog("修改角色")
 	@PutMapping
 	@PreAuthorize("@pms.hasPermission('sys_role_edit')")
-	public R<Boolean> update(@Valid @RequestBody SysRole sysRole) {
-		return R.ok(sysRoleService.updateById(sysRole));
+	public LzhphantomResult<Boolean> update(@Valid @RequestBody Role sysRole) {
+		return LzhphantomResult.ok(sysRoleService.updateById(sysRole));
 	}
 
 	/**
@@ -93,11 +93,11 @@ public class RoleController {
 	 * @param id
 	 * @return
 	 */
-	@SysLog("删除角色")
+	@LzhphantomLog("删除角色")
 	@DeleteMapping("/{id:\\d+}")
 	@PreAuthorize("@pms.hasPermission('sys_role_del')")
-	public R<Boolean> removeById(@PathVariable Long id) {
-		return R.ok(sysRoleService.removeRoleById(id));
+	public LzhphantomResult<Boolean> removeById(@PathVariable Long id) {
+		return LzhphantomResult.ok(sysRoleService.removeRoleById(id));
 	}
 
 	/**
@@ -105,8 +105,8 @@ public class RoleController {
 	 * @return 角色列表
 	 */
 	@GetMapping("/list")
-	public R<List<SysRole>> listRoles() {
-		return R.ok(sysRoleService.list(Wrappers.emptyWrapper()));
+	public LzhphantomResult<List<Role>> listRoles() {
+		return LzhphantomResult.ok(sysRoleService.list(Wrappers.emptyWrapper()));
 	}
 
 	/**
@@ -115,8 +115,8 @@ public class RoleController {
 	 * @return 分页对象
 	 */
 	@GetMapping("/page")
-	public R<IPage<SysRole>> getRolePage(Page page) {
-		return R.ok(sysRoleService.page(page, Wrappers.emptyWrapper()));
+	public LzhphantomResult<IPage<Role>> getRolePage(Page page) {
+		return LzhphantomResult.ok(sysRoleService.page(page, Wrappers.emptyWrapper()));
 	}
 
 	/**
@@ -124,11 +124,11 @@ public class RoleController {
 	 * @param roleVo 角色对象
 	 * @return success、false
 	 */
-	@SysLog("更新角色菜单")
+	@LzhphantomLog("更新角色菜单")
 	@PutMapping("/menu")
 	@PreAuthorize("@pms.hasPermission('sys_role_perm')")
-	public R<Boolean> saveRoleMenus(@RequestBody RoleVo roleVo) {
-		return R.ok(sysRoleMenuService.saveRoleMenus(roleVo.getRoleId(), roleVo.getMenuIds()));
+	public LzhphantomResult<Boolean> saveRoleMenus(@RequestBody RoleVo roleVo) {
+		return LzhphantomResult.ok(sysRoleMenuService.saveRoleMenus(roleVo.getRoleId(), roleVo.getMenuIds()));
 	}
 
 	/**
@@ -150,7 +150,7 @@ public class RoleController {
 	 */
 	@PostMapping("/import")
 	@PreAuthorize("@pms.hasPermission('sys_role_import_export')")
-	public R importRole(@RequestExcel List<RoleExcelVO> excelVOList, BindingResult bindingResult) {
+	public LzhphantomResult importRole(@RequestExcel List<RoleExcelVO> excelVOList, BindingResult bindingResult) {
 		return sysRoleService.importRole(excelVOList, bindingResult);
 	}
 

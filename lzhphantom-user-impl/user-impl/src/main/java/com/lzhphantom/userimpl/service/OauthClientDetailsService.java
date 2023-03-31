@@ -24,7 +24,7 @@ import com.lzhphantom.user.login.entity.OauthClientDetails;
  * 服务类
  * </p>
  *
- * @author lengleng
+ * @author lzhphantom
  * @since 2019/2/1
  */
 public interface OauthClientDetailsService extends IService<OauthClientDetails> {

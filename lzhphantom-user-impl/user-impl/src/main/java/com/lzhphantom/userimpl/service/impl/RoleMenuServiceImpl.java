@@ -20,9 +20,9 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lzhphantom.core.constant.CacheConstants;
+import com.lzhphantom.user.login.entity.RoleMenu;
 import com.lzhphantom.userimpl.mapper.RoleMenuMapper;
 import com.lzhphantom.userimpl.service.RoleMenuService;
-import com.pig4cloud.pig.admin.api.entity.RoleMenu;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
  * 角色菜单表 服务实现类
  * </p>
  *
- * @author lengleng
+ * @author lzhphantom
  * @since 2019/2/1
  */
 @Service

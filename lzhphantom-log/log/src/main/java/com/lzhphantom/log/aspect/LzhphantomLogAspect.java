@@ -36,7 +36,7 @@ public class LzhphantomLogAspect {
                 value = LogUtils.getValue(context, expression, String.class);
             } catch (Exception e) {
                 // SPEL 表达式异常，获取 value 的值
-                log.error("@SysLog 解析SPEL {} 异常", expression);
+                log.error("@LzhphantomLog 解析SPEL {} 异常", expression);
             }
         }
 

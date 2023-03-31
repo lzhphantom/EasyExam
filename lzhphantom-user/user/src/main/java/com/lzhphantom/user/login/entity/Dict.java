@@ -1,57 +1,59 @@
 package com.lzhphantom.user.login.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.lzhphantom.core.common.entity.BaseEntity;
-import jakarta.persistence.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
-import org.hibernate.envers.Audited;
-
-import java.util.List;
 
 /**
  * 字典表
  *
  * @author lzhphantom
  */
-@Entity
-@Table(name = "LZHPHANTOM_USER")
 @Data
-@Accessors(chain = true)
-@Audited
+@Schema(description = "字典类型")
 @EqualsAndHashCode(callSuper = true)
 public class Dict extends BaseEntity {
+    private static final long serialVersionUID = 1L;
+
     /**
-     * 主键ID
+     * 编号
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @TableId(type = IdType.ASSIGN_ID)
+    @Schema(description = "字典编号")
     private Long id;
+
     /**
      * 类型
      */
-    @Column(name = "dictKey")
+    @Schema(description = "字典key")
     private String dictKey;
 
     /**
      * 描述
      */
-    @Column(name = "description")
+    @Schema(description = "字典描述")
     private String description;
 
     /**
      * 是否是系统内置
      */
-    @Column(name = "systemFlag")
+    @Schema(description = "是否系统内置")
     private String systemFlag;
 
     /**
      * 备注信息
      */
-    @Column(name = "remark")
+    @Schema(description = "备注信息")
     private String remark;
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JoinColumn(name = "dictId",referencedColumnName = "id")
-    private List<DictItem> dictItems;
+    /**
+     * 删除标记
+     */
+    @TableLogic
+    @Schema(description = "删除标记,1:已删除,0:正常")
+    private String delFlag;
 }

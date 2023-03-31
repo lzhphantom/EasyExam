@@ -25,7 +25,7 @@ import org.apache.ibatis.annotations.Mapper;
  * 日志表 Mapper 接口
  * </p>
  *
- * @author lengleng
+ * @author lzhphantom
  * @since 2019/2/1
  */
 @Mapper

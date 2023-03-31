@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lzhphantom All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -12,16 +12,16 @@
  * Neither the name of the pig4cloud.com developer nor the names of its
  * contributors may be used to endorse or promote products derived from
  * this software without specific prior written permission.
- * Author: lengleng (wangiegie@gmail.com)
+ * Author: lzhphantom (wangiegie@gmail.com)
  */
 
 package com.lzhphantom.userimpl.service;
 
+import com.lzhphantom.core.common.util.LzhphantomResult;
 import com.pig4cloud.pig.admin.api.dto.AppSmsDTO;
-import com.pig4cloud.pig.common.core.util.R;
 
 /**
- * @author lengleng
+ * @author lzhphantom
  * @date 2018/11/14
  */
 public interface AppService {
@@ -31,7 +31,7 @@ public interface AppService {
 	 * @param sms phone
 	 * @return code
 	 */
-	R<Boolean> sendSmsCode(AppSmsDTO sms);
+	LzhphantomResult<Boolean> sendSmsCode(AppSmsDTO sms);
 
 	/**
 	 * 校验验证码

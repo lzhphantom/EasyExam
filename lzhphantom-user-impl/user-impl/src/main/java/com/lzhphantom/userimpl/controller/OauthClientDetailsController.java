@@ -19,11 +19,11 @@ package com.lzhphantom.userimpl.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.pig4cloud.pig.admin.api.entity.SysOauthClientDetails;
-import com.pig4cloud.pig.admin.service.SysOauthClientDetailsService;
-import com.pig4cloud.pig.common.core.util.R;
-import com.pig4cloud.pig.common.log.annotation.SysLog;
-import com.pig4cloud.pig.common.security.annotation.Inner;
+import com.lzhphantom.core.common.util.LzhphantomResult;
+import com.lzhphantom.log.annotation.LzhphantomLog;
+import com.lzhphantom.security.annotation.Inner;
+import com.lzhphantom.user.login.entity.OauthClientDetails;
+import com.lzhphantom.userimpl.service.OauthClientDetailsService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -39,7 +39,7 @@ import java.util.List;
  * 前端控制器
  * </p>
  *
- * @author lengleng
+ * @author lzhphantom
  * @since 2018-05-15
  */
 @RestController
@@ -49,17 +49,17 @@ import java.util.List;
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class OauthClientDetailsController {
 
-	private final SysOauthClientDetailsService sysOauthClientDetailsService;
+	private final OauthClientDetailsService sysOauthClientDetailsService;
 
 	/**
 	 * 通过ID查询
 	 * @param clientId 客户端id
-	 * @return SysOauthClientDetails
+	 * @return OauthClientDetails
 	 */
 	@GetMapping("/{clientId}")
-	public R<List<SysOauthClientDetails>> getByClientId(@PathVariable String clientId) {
-		return R.ok(sysOauthClientDetailsService
-				.list(Wrappers.<SysOauthClientDetails>lambdaQuery().eq(SysOauthClientDetails::getClientId, clientId)));
+	public LzhphantomResult<List<OauthClientDetails>> getByClientId(@PathVariable String clientId) {
+		return LzhphantomResult.ok(sysOauthClientDetailsService
+				.list(Wrappers.<OauthClientDetails>lambdaQuery().eq(OauthClientDetails::getClientId, clientId)));
 	}
 
 	/**
@@ -69,9 +69,9 @@ public class OauthClientDetailsController {
 	 * @return
 	 */
 	@GetMapping("/page")
-	public R<IPage<SysOauthClientDetails>> getOauthClientDetailsPage(Page page,
-			SysOauthClientDetails sysOauthClientDetails) {
-		return R.ok(sysOauthClientDetailsService.page(page, Wrappers.query(sysOauthClientDetails)));
+	public LzhphantomResult<IPage<OauthClientDetails>> getOauthClientDetailsPage(Page page,
+			OauthClientDetails sysOauthClientDetails) {
+		return LzhphantomResult.ok(sysOauthClientDetailsService.page(page, Wrappers.query(sysOauthClientDetails)));
 	}
 
 	/**
@@ -79,11 +79,11 @@ public class OauthClientDetailsController {
 	 * @param sysOauthClientDetails 实体
 	 * @return success/false
 	 */
-	@SysLog("添加终端")
+	@LzhphantomLog("添加终端")
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_client_add')")
-	public R<Boolean> add(@Valid @RequestBody SysOauthClientDetails sysOauthClientDetails) {
-		return R.ok(sysOauthClientDetailsService.save(sysOauthClientDetails));
+	public LzhphantomResult<Boolean> add(@Valid @RequestBody OauthClientDetails sysOauthClientDetails) {
+		return LzhphantomResult.ok(sysOauthClientDetailsService.save(sysOauthClientDetails));
 	}
 
 	/**
@@ -91,11 +91,11 @@ public class OauthClientDetailsController {
 	 * @param id ID
 	 * @return success/false
 	 */
-	@SysLog("删除终端")
+	@LzhphantomLog("删除终端")
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@pms.hasPermission('sys_client_del')")
-	public R<Boolean> removeById(@PathVariable String id) {
-		return R.ok(sysOauthClientDetailsService.removeClientDetailsById(id));
+	public LzhphantomResult<Boolean> removeById(@PathVariable String id) {
+		return LzhphantomResult.ok(sysOauthClientDetailsService.removeClientDetailsById(id));
 	}
 
 	/**
@@ -103,26 +103,26 @@ public class OauthClientDetailsController {
 	 * @param sysOauthClientDetails 实体
 	 * @return success/false
 	 */
-	@SysLog("编辑终端")
+	@LzhphantomLog("编辑终端")
 	@PutMapping
 	@PreAuthorize("@pms.hasPermission('sys_client_edit')")
-	public R<Boolean> update(@Valid @RequestBody SysOauthClientDetails sysOauthClientDetails) {
-		return R.ok(sysOauthClientDetailsService.updateClientDetailsById(sysOauthClientDetails));
+	public LzhphantomResult<Boolean> update(@Valid @RequestBody OauthClientDetails sysOauthClientDetails) {
+		return LzhphantomResult.ok(sysOauthClientDetailsService.updateClientDetailsById(sysOauthClientDetails));
 	}
 
-	@SysLog("清除终端缓存")
+	@LzhphantomLog("清除终端缓存")
 	@DeleteMapping("/cache")
 	@PreAuthorize("@pms.hasPermission('sys_client_del')")
-	public R clearClientCache() {
+	public LzhphantomResult clearClientCache() {
 		sysOauthClientDetailsService.clearClientCache();
-		return R.ok();
+		return LzhphantomResult.ok();
 	}
 
 	@Inner
 	@GetMapping("/getClientDetailsById/{clientId}")
-	public R getClientDetailsById(@PathVariable String clientId) {
-		return R.ok(sysOauthClientDetailsService.getOne(
-				Wrappers.<SysOauthClientDetails>lambdaQuery().eq(SysOauthClientDetails::getClientId, clientId), false));
+	public LzhphantomResult getClientDetailsById(@PathVariable String clientId) {
+		return LzhphantomResult.ok(sysOauthClientDetailsService.getOne(
+				Wrappers.<OauthClientDetails>lambdaQuery().eq(OauthClientDetails::getClientId, clientId), false));
 	}
 
 }

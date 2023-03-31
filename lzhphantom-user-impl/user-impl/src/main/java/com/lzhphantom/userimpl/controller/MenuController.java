@@ -17,11 +17,11 @@
 package com.lzhphantom.userimpl.controller;
 
 import cn.hutool.core.lang.tree.Tree;
-import com.pig4cloud.pig.admin.api.entity.SysMenu;
-import com.pig4cloud.pig.admin.service.SysMenuService;
-import com.pig4cloud.pig.common.core.util.R;
-import com.pig4cloud.pig.common.log.annotation.SysLog;
-import com.pig4cloud.pig.common.security.util.SecurityUtils;
+import com.lzhphantom.core.common.util.LzhphantomResult;
+import com.lzhphantom.log.annotation.LzhphantomLog;
+import com.lzhphantom.security.util.SecurityUtils;
+import com.lzhphantom.user.login.entity.Menu;
+import com.lzhphantom.userimpl.service.MenuService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -36,7 +36,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * @author lengleng
+ * @author lzhphantom
  * @date 2017/10/31
  */
 @RestController
@@ -46,7 +46,7 @@ import java.util.stream.Collectors;
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class MenuController {
 
-	private final SysMenuService sysMenuService;
+	private final MenuService sysMenuService;
 
 	/**
 	 * 返回当前用户的树形菜单集合
@@ -54,11 +54,11 @@ public class MenuController {
 	 * @return 当前用户的树形菜单
 	 */
 	@GetMapping
-	public R<List<Tree<Long>>> getUserMenu(Long parentId) {
+	public LzhphantomResult<List<Tree<Long>>> getUserMenu(Long parentId) {
 		// 获取符合条件的菜单
-		Set<SysMenu> menuSet = SecurityUtils.getRoles().stream().map(sysMenuService::findMenuByRoleId)
+		Set<Menu> menuSet = SecurityUtils.getRoles().stream().map(sysMenuService::findMenuByRoleId)
 				.flatMap(Collection::stream).collect(Collectors.toSet());
-		return R.ok(sysMenuService.filterMenu(menuSet, parentId));
+		return LzhphantomResult.ok(sysMenuService.filterMenu(menuSet, parentId));
 	}
 
 	/**
@@ -68,8 +68,8 @@ public class MenuController {
 	 * @return 树形菜单
 	 */
 	@GetMapping(value = "/tree")
-	public R<List<Tree<Long>>> getTree(boolean lazy, Long parentId) {
-		return R.ok(sysMenuService.treeMenu(lazy, parentId));
+	public LzhphantomResult<List<Tree<Long>>> getTree(boolean lazy, Long parentId) {
+		return LzhphantomResult.ok(sysMenuService.treeMenu(lazy, parentId));
 	}
 
 	/**
@@ -78,9 +78,9 @@ public class MenuController {
 	 * @return 属性集合
 	 */
 	@GetMapping("/tree/{roleId}")
-	public R<List<Long>> getRoleTree(@PathVariable Long roleId) {
-		return R.ok(
-				sysMenuService.findMenuByRoleId(roleId).stream().map(SysMenu::getMenuId).collect(Collectors.toList()));
+	public LzhphantomResult<List<Long>> getRoleTree(@PathVariable Long roleId) {
+		return LzhphantomResult.ok(
+				sysMenuService.findMenuByRoleId(roleId).stream().map(Menu::getMenuId).collect(Collectors.toList()));
 	}
 
 	/**
@@ -89,8 +89,8 @@ public class MenuController {
 	 * @return 菜单详细信息
 	 */
 	@GetMapping("/{id:\\d+}")
-	public R<SysMenu> getById(@PathVariable Long id) {
-		return R.ok(sysMenuService.getById(id));
+	public LzhphantomResult<Menu> getById(@PathVariable Long id) {
+		return LzhphantomResult.ok(sysMenuService.getById(id));
 	}
 
 	/**
@@ -98,12 +98,12 @@ public class MenuController {
 	 * @param sysMenu 菜单信息
 	 * @return 含ID 菜单信息
 	 */
-	@SysLog("新增菜单")
+	@LzhphantomLog("新增菜单")
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_menu_add')")
-	public R<SysMenu> save(@Valid @RequestBody SysMenu sysMenu) {
+	public LzhphantomResult<Menu> save(@Valid @RequestBody Menu sysMenu) {
 		sysMenuService.save(sysMenu);
-		return R.ok(sysMenu);
+		return LzhphantomResult.ok(sysMenu);
 	}
 
 	/**
@@ -111,11 +111,11 @@ public class MenuController {
 	 * @param id 菜单ID
 	 * @return success/false
 	 */
-	@SysLog("删除菜单")
+	@LzhphantomLog("删除菜单")
 	@DeleteMapping("/{id:\\d+}")
 	@PreAuthorize("@pms.hasPermission('sys_menu_del')")
-	public R<Boolean> removeById(@PathVariable Long id) {
-		return R.ok(sysMenuService.removeMenuById(id));
+	public LzhphantomResult<Boolean> removeById(@PathVariable Long id) {
+		return LzhphantomResult.ok(sysMenuService.removeMenuById(id));
 	}
 
 	/**
@@ -123,22 +123,22 @@ public class MenuController {
 	 * @param sysMenu
 	 * @return
 	 */
-	@SysLog("更新菜单")
+	@LzhphantomLog("更新菜单")
 	@PutMapping
 	@PreAuthorize("@pms.hasPermission('sys_menu_edit')")
-	public R<Boolean> update(@Valid @RequestBody SysMenu sysMenu) {
-		return R.ok(sysMenuService.updateMenuById(sysMenu));
+	public LzhphantomResult<Boolean> update(@Valid @RequestBody Menu sysMenu) {
+		return LzhphantomResult.ok(sysMenuService.updateMenuById(sysMenu));
 	}
 
 	/**
 	 * 清除菜单缓存
 	 */
-	@SysLog("清除菜单缓存")
+	@LzhphantomLog("清除菜单缓存")
 	@DeleteMapping("/cache")
 	@PreAuthorize("@pms.hasPermission('sys_menu_del')")
-	public R clearMenuCache() {
+	public LzhphantomResult clearMenuCache() {
 		sysMenuService.clearMenuCache();
-		return R.ok();
+		return LzhphantomResult.ok();
 	}
 
 }

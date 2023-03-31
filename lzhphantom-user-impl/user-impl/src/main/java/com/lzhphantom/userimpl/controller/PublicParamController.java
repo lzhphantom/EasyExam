@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lzhphantom All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -12,7 +12,7 @@
  * Neither the name of the pig4cloud.com developer nor the names of its
  * contributors may be used to endorse or promote products derived from
  * this software without specific prior written permission.
- * Author: lengleng (wangiegie@gmail.com)
+ * Author: lzhphantom (wangiegie@gmail.com)
  */
 
 package com.lzhphantom.userimpl.controller;
@@ -20,11 +20,11 @@ package com.lzhphantom.userimpl.controller;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.pig4cloud.pig.admin.api.entity.SysPublicParam;
-import com.pig4cloud.pig.admin.service.SysPublicParamService;
-import com.pig4cloud.pig.common.core.util.R;
-import com.pig4cloud.pig.common.log.annotation.SysLog;
-import com.pig4cloud.pig.common.security.annotation.Inner;
+import com.lzhphantom.core.common.util.LzhphantomResult;
+import com.lzhphantom.log.annotation.LzhphantomLog;
+import com.lzhphantom.security.annotation.Inner;
+import com.lzhphantom.user.login.entity.PublicParam;
+import com.lzhphantom.userimpl.service.PublicParamService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -46,7 +46,7 @@ import org.springframework.web.bind.annotation.*;
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class PublicParamController {
 
-	private final SysPublicParamService sysPublicParamService;
+	private final PublicParamService sysPublicParamService;
 
 	/**
 	 * 通过key查询公共参数值
@@ -56,8 +56,8 @@ public class PublicParamController {
 	@Inner(value = false)
 	@Operation(summary = "查询公共参数值", description = "根据key查询公共参数值")
 	@GetMapping("/publicValue/{publicKey}")
-	public R publicKey(@PathVariable("publicKey") String publicKey) {
-		return R.ok(sysPublicParamService.getSysPublicParamKeyToValue(publicKey));
+	public LzhphantomResult publicKey(@PathVariable("publicKey") String publicKey) {
+		return LzhphantomResult.ok(sysPublicParamService.getSysPublicParamKeyToValue(publicKey));
 	}
 
 	/**
@@ -68,12 +68,12 @@ public class PublicParamController {
 	 */
 	@Operation(summary = "分页查询", description = "分页查询")
 	@GetMapping("/page")
-	public R getSysPublicParamPage(Page page, SysPublicParam sysPublicParam) {
-		return R.ok(sysPublicParamService.page(page,
-				Wrappers.<SysPublicParam>lambdaQuery()
-						.like(StrUtil.isNotBlank(sysPublicParam.getPublicName()), SysPublicParam::getPublicName,
+	public LzhphantomResult getSysPublicParamPage(Page page, PublicParam sysPublicParam) {
+		return LzhphantomResult.ok(sysPublicParamService.page(page,
+				Wrappers.<PublicParam>lambdaQuery()
+						.like(StrUtil.isNotBlank(sysPublicParam.getPublicName()), PublicParam::getPublicName,
 								sysPublicParam.getPublicName())
-						.like(StrUtil.isNotBlank(sysPublicParam.getPublicKey()), SysPublicParam::getPublicKey,
+						.like(StrUtil.isNotBlank(sysPublicParam.getPublicKey()), PublicParam::getPublicKey,
 								sysPublicParam.getPublicKey())));
 	}
 
@@ -84,8 +84,8 @@ public class PublicParamController {
 	 */
 	@Operation(summary = "通过id查询公共参数", description = "通过id查询公共参数")
 	@GetMapping("/{publicId}")
-	public R getById(@PathVariable("publicId") Long publicId) {
-		return R.ok(sysPublicParamService.getById(publicId));
+	public LzhphantomResult getById(@PathVariable("publicId") Long publicId) {
+		return LzhphantomResult.ok(sysPublicParamService.getById(publicId));
 	}
 
 	/**
@@ -94,11 +94,11 @@ public class PublicParamController {
 	 * @return R
 	 */
 	@Operation(summary = "新增公共参数", description = "新增公共参数")
-	@SysLog("新增公共参数")
+	@LzhphantomLog("新增公共参数")
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_publicparam_add')")
-	public R save(@RequestBody SysPublicParam sysPublicParam) {
-		return R.ok(sysPublicParamService.save(sysPublicParam));
+	public LzhphantomResult save(@RequestBody PublicParam sysPublicParam) {
+		return LzhphantomResult.ok(sysPublicParamService.save(sysPublicParam));
 	}
 
 	/**
@@ -107,10 +107,10 @@ public class PublicParamController {
 	 * @return R
 	 */
 	@Operation(summary = "修改公共参数", description = "修改公共参数")
-	@SysLog("修改公共参数")
+	@LzhphantomLog("修改公共参数")
 	@PutMapping
 	@PreAuthorize("@pms.hasPermission('sys_publicparam_edit')")
-	public R updateById(@RequestBody SysPublicParam sysPublicParam) {
+	public LzhphantomResult updateById(@RequestBody PublicParam sysPublicParam) {
 		return sysPublicParamService.updateParam(sysPublicParam);
 	}
 
@@ -120,10 +120,10 @@ public class PublicParamController {
 	 * @return R
 	 */
 	@Operation(summary = "删除公共参数", description = "删除公共参数")
-	@SysLog("删除公共参数")
+	@LzhphantomLog("删除公共参数")
 	@DeleteMapping("/{publicId}")
 	@PreAuthorize("@pms.hasPermission('sys_publicparam_del')")
-	public R removeById(@PathVariable Long publicId) {
+	public LzhphantomResult removeById(@PathVariable Long publicId) {
 		return sysPublicParamService.removeParam(publicId);
 	}
 
@@ -131,9 +131,9 @@ public class PublicParamController {
 	 * 同步参数
 	 * @return R
 	 */
-	@SysLog("同步参数")
+	@LzhphantomLog("同步参数")
 	@PutMapping("/sync")
-	public R sync() {
+	public LzhphantomResult sync() {
 		return sysPublicParamService.syncParamCache();
 	}
 

@@ -18,7 +18,6 @@ package com.lzhphantom.userimpl.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lzhphantom.user.login.entity.Role;
-import com.pig4cloud.pig.admin.api.entity.SysRole;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -28,7 +27,7 @@ import java.util.List;
  * Mapper 接口
  * </p>
  *
- * @author lengleng
+ * @author lzhphantom
  * @since 2019/2/1
  */
 @Mapper

@@ -17,13 +17,14 @@
 package com.lzhphantom.userimpl.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.lzhphantom.user.login.entity.RoleMenu;
 
 /**
  * <p>
  * 角色菜单表 服务类
  * </p>
  *
- * @author lengleng
+ * @author lzhphantom
  * @since 2019/2/1
  */
 public interface RoleMenuService extends IService<RoleMenu> {

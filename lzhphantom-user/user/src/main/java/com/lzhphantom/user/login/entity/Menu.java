@@ -1,81 +1,85 @@
 package com.lzhphantom.user.login.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.lzhphantom.core.common.entity.BaseEntity;
-import jakarta.persistence.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
-import org.hibernate.envers.Audited;
-
-import java.util.Set;
 
 /**
  * 菜单权限表
  *
  * @author lzhphantom
  */
-@Entity
-@Table(name = "LZHPHANTOM_USER")
 @Data
-@Accessors(chain = true)
-@Audited
 @EqualsAndHashCode(callSuper = true)
 public class Menu extends BaseEntity {
+    private static final long serialVersionUID = 1L;
+
     /**
-     * 主键ID
+     * 菜单ID
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @TableId(value = "menu_id", type = IdType.ASSIGN_ID)
+    @Schema(description = "菜单id")
+    private Long menuId;
 
     /**
      * 菜单名称
      */
-    @Column(name = "name", nullable = false)
+    @NotBlank(message = "菜单名称不能为空")
+    @Schema(description = "菜单名称")
     private String name;
 
     /**
      * 菜单权限标识
      */
-    @Column(name = "permission")
+    @Schema(description = "菜单权限标识")
     private String permission;
 
     /**
      * 父菜单ID
      */
-    @Column(name = "parentId", nullable = false)
+    @NotNull(message = "菜单父ID不能为空")
+    @Schema(description = "菜单父id")
     private Long parentId;
 
     /**
      * 图标
      */
-    @Column(name = "icon")
+    @Schema(description = "菜单图标")
     private String icon;
 
     /**
      * 前端URL
      */
-    @Column(name = "path")
+    @Schema(description = "前端路由标识路径")
     private String path;
 
     /**
      * 排序值
      */
-    @Column(name = "sortOrder")
+    @Schema(description = "排序值")
     private Integer sortOrder;
 
     /**
      * 菜单类型 （0菜单 1按钮）
      */
-    @Column(name = "type", nullable = false)
+    @NotNull(message = "菜单类型不能为空")
     private String type;
 
     /**
      * 路由缓冲
      */
-    @Column(name = "keepAlive")
+    @Schema(description = "路由缓冲")
     private String keepAlive;
 
-    @ManyToMany(mappedBy = "menus", fetch = FetchType.LAZY)
-    private Set<Role> roles;
+    /**
+     * 0--正常 1--删除
+     */
+    @TableLogic
+    private String delFlag;
 }

@@ -18,13 +18,14 @@ package com.lzhphantom.userimpl.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lzhphantom.user.login.entity.Dept;
+import com.lzhphantom.user.login.entity.DeptRelation;
 
 /**
  * <p>
  * 服务类
  * </p>
  *
- * @author lengleng
+ * @author lzhphantom
  * @since 2019/2/1
  */
 public interface DeptRelationService extends IService<DeptRelation> {

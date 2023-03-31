@@ -21,7 +21,7 @@ import com.lzhphantom.user.login.entity.Dict;
 /**
  * 字典表
  *
- * @author lengleng
+ * @author lzhphantom
  * @date 2019/03/19
  */
 public interface DictService extends IService<Dict> {

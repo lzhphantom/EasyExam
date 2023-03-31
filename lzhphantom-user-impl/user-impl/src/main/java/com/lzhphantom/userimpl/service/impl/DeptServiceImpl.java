@@ -24,11 +24,10 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lzhphantom.security.util.SecurityUtils;
 import com.lzhphantom.user.login.entity.Dept;
+import com.lzhphantom.user.login.entity.DeptRelation;
 import com.lzhphantom.userimpl.mapper.DeptMapper;
 import com.lzhphantom.userimpl.service.DeptRelationService;
 import com.lzhphantom.userimpl.service.DeptService;
-import com.pig4cloud.pig.admin.api.entity.SysDept;
-import com.pig4cloud.pig.admin.api.entity.SysDeptRelation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -42,7 +41,7 @@ import java.util.stream.Collectors;
  * 部门管理 服务实现类
  * </p>
  *
- * @author lengleng
+ * @author lzhphantom
  * @since 2019/2/1
  */
 @Service
@@ -77,7 +76,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
 		// 级联删除部门
 		List<Long> idList = sysDeptRelationService
 				.list(Wrappers.<DeptRelation>query().lambda().eq(DeptRelation::getAncestor, id)).stream()
-				.map(SysDeptRelation::getDescendant).collect(Collectors.toList());
+				.map(DeptRelation::getDescendant).collect(Collectors.toList());
 
 		if (CollUtil.isNotEmpty(idList)) {
 			this.removeByIds(idList);
@@ -149,7 +148,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
 	 */
 	private List<Tree<Long>> getDeptTree(List<Dept> depts, Long parentId) {
 		List<TreeNode<Long>> collect = depts.stream().filter(dept -> dept.getDeptId().intValue() != dept.getParentId())
-				.sorted(Comparator.comparingInt(SysDept::getSortOrder)).map(dept -> {
+				.sorted(Comparator.comparingInt(Dept::getSortOrder)).map(dept -> {
 					TreeNode<Long> treeNode = new TreeNode();
 					treeNode.setId(dept.getDeptId());
 					treeNode.setParentId(dept.getParentId());
@@ -157,7 +156,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
 					treeNode.setWeight(dept.getSortOrder());
 					// 扩展属性
 					Map<String, Object> extra = new HashMap<>(4);
-					extra.put("createTime", dept.getCreateTime());
+					extra.put("createTime", dept.getCreateDt());
 					treeNode.setExtra(extra);
 					return treeNode;
 				}).collect(Collectors.toList());

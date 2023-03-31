@@ -17,13 +17,14 @@
 package com.lzhphantom.userimpl.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.lzhphantom.user.login.entity.UserRole;
 
 /**
  * <p>
  * 用户角色表 服务类
  * </p>
  *
- * @author lengleng
+ * @author lzhphantom
  * @since 2019/2/1
  */
 public interface UserRoleService extends IService<UserRole> {
