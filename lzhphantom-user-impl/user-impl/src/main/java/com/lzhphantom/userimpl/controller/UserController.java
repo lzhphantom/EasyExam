@@ -1,19 +1,3 @@
-/*
- * Copyright (c) 2020 pig4cloud Authors. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.lzhphantom.userimpl.controller;
 
 import cn.hutool.core.collection.CollUtil;
@@ -150,7 +134,7 @@ public class UserController {
 	 */
 	@LzhphantomLog("添加用户")
 	@PostMapping
-	@XssCleanIgnore({ "password" })
+//	@XssCleanIgnore({ "password" })
 	@PreAuthorize("@pms.hasPermission('sys_user_add')")
 	public LzhphantomResult<Boolean> user(@RequestBody UserDTO userDto) {
 		return LzhphantomResult.ok(userService.saveUser(userDto));
@@ -163,7 +147,7 @@ public class UserController {
 	 */
 	@LzhphantomLog("更新用户信息")
 	@PutMapping
-	@XssCleanIgnore({ "password" })
+//	@XssCleanIgnore({ "password" })
 	@PreAuthorize("@pms.hasPermission('sys_user_edit')")
 	public LzhphantomResult<Boolean> updateUser(@Valid @RequestBody UserDTO userDto) {
 		return userService.updateUser(userDto);
@@ -187,7 +171,7 @@ public class UserController {
 	 */
 	@LzhphantomLog("修改个人信息")
 	@PutMapping("/edit")
-	@XssCleanIgnore({ "password", "newpassword1" })
+//	@XssCleanIgnore({ "password", "newpassword1" })
 	public LzhphantomResult<Boolean> updateUserInfo(@Valid @RequestBody UserDTO userDto) {
 		userDto.setUsername(SecurityUtils.getUser().getUsername());
 		return userService.updateUserInfo(userDto);
