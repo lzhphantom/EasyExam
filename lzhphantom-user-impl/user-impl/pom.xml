@@ -60,6 +60,12 @@
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
             <version>2022.0.0.0-RC1</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/io.springboot.sms/aliyun-sms-spring-boot-starter -->
+        <dependency>
+            <groupId>io.springboot.sms</groupId>
+            <artifactId>aliyun-sms-spring-boot-starter</artifactId>
+            <version>3.0.0</version>
+        </dependency>
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>

@@ -16,9 +16,9 @@
   -->
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.pig4cloud.pig.admin.mapper.SysDeptMapper">
+<mapper namespace="com.lzhphantom.userimpl.mapper.DeptMapper">
 	<!-- 通用查询映射结果 -->
-	<resultMap id="BaseResultMap" type="com.pig4cloud.pig.admin.api.entity.SysDept">
+	<resultMap id="BaseResultMap" type="com.lzhphantom.user.login.entity.Dept">
 		<id column="dept_id" property="deptId"/>
 		<result column="name" property="name"/>
 		<result column="sort_order" property="sortOrder"/>
@@ -31,7 +31,7 @@
 	</resultMap>
 
 	<!--关联查询部门列表-->
-	<select id="listDepts" resultMap="BaseResultMap">
+	<select id="listDepartments" resultMap="BaseResultMap">
 		SELECT t.dept_id,
 			   t.name,
 			   t.sort_order,
@@ -41,8 +41,8 @@
 			   t.create_by,
 			   t.update_time,
 			   t.update_by
-		FROM sys_dept t
-					 LEFT JOIN sys_dept_relation dr ON t.dept_id = dr.descendant
+		FROM dept t
+					 LEFT JOIN dept_relation dr ON t.dept_id = dr.descendant
 		WHERE dr.ancestor = 0
 	</select>
 </mapper>

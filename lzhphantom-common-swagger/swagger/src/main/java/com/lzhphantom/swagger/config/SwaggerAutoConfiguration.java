@@ -18,6 +18,7 @@ import org.springframework.http.HttpHeaders;
 
 import java.util.List;
 
+
 /**
  * swagger配置
  *
@@ -43,7 +44,9 @@ public class SwaggerAutoConfiguration {
     @Bean
     public OpenAPI springOpenAPI() {
         OpenAPI openAPI = new OpenAPI().info(new Info().title(swaggerProperties.getTitle()));
-        openAPI.schemaRequirement(HttpHeaders.AUTHORIZATION, null);
+        // oauth2.0 password
+        openAPI.schemaRequirement(HttpHeaders.AUTHORIZATION, this.securityScheme());
+        // servers
         List<Server> serverList = Lists.newArrayList();
         String path = swaggerProperties.getServices().get(serviceInstance.getServiceId());
         serverList.add(new Server().url(swaggerProperties.getGateway() + "/" + path));

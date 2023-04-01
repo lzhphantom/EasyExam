@@ -18,7 +18,7 @@
 package com.lzhphantom.userimpl.service;
 
 import com.lzhphantom.core.common.util.LzhphantomResult;
-import com.pig4cloud.pig.admin.api.dto.AppSmsDTO;
+import com.lzhphantom.user.dto.AppSmsDTO;
 
 /**
  * @author lzhphantom

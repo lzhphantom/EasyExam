@@ -1,7 +1,6 @@
 package com.lzhphantom.security.service;
 
 import com.google.common.collect.Lists;
-import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;

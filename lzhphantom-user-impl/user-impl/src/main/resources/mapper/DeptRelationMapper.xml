@@ -16,16 +16,16 @@
   -->
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.pig4cloud.pig.admin.mapper.SysDeptRelationMapper">
+<mapper namespace="com.lzhphantom.userimpl.mapper.DeptRelationMapper">
 	<!-- 删除部门节点关系	-->
 	<delete id="deleteDeptRelations">
 		DELETE
-		FROM sys_dept_relation
+		FROM dept_relation
 		WHERE descendant IN (SELECT temp.descendant
-							 FROM (SELECT descendant FROM sys_dept_relation WHERE ancestor = #{descendant}) temp)
+							 FROM (SELECT descendant FROM dept_relation WHERE ancestor = #{descendant}) temp)
 		  AND ancestor IN (SELECT temp.ancestor
 						   FROM (SELECT ancestor
-								 FROM sys_dept_relation
+								 FROM dept_relation
 								 WHERE descendant = #{descendant}
 								   AND ancestor != descendant) temp)
 	</delete>
@@ -33,12 +33,12 @@
 	<!--删除部门节点关系,同时删除所有关联此部门子节点的部门关系-->
 	<delete id="deleteDeptRelationsById">
 		DELETE
-		FROM sys_dept_relation
+		FROM dept_relation
 		WHERE descendant IN (
 				SELECT temp.descendant
 				FROM (
 							 SELECT descendant
-							 FROM sys_dept_relation
+							 FROM dept_relation
 							 WHERE ancestor = #{id}
 							 ) temp
 				)
@@ -46,10 +46,10 @@
 
 	<!-- 新增部门节点关系	-->
 	<insert id="insertDeptRelations">
-		INSERT INTO sys_dept_relation (ancestor, descendant)
+		INSERT INTO dept_relation (ancestor, descendant)
 		SELECT a.ancestor, b.descendant
-		FROM sys_dept_relation a
-					 CROSS JOIN sys_dept_relation b
+		FROM dept_relation a
+					 CROSS JOIN dept_relation b
 		WHERE a.descendant = #{ancestor}
 		  AND b.ancestor = #{descendant}
 	</insert>

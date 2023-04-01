@@ -44,7 +44,7 @@ public interface LzhphantomUserDetailsService extends UserDetailsService, Ordere
     }
 
     /**
-     * 构建userdetails
+     * 构建userDetails
      *
      * @param result 用户信息
      * @return UserDetails
@@ -67,7 +67,7 @@ public interface LzhphantomUserDetailsService extends UserDetailsService, Ordere
         User user = info.getUser();
 
         // 构造security用户
-        return new LzhphantomUser(user.getId(), user.getDept().getId(), user.getUsername(),
+        return new LzhphantomUser(user.getUserId(), user.getDeptId(), user.getUsername(),
                 SecurityConstants.BCRYPT + user.getPassword(), user.getPhone(), true, true, true,
                 StrUtil.equals(user.getLockFlag(), CommonConstants.STATUS_NORMAL), authorities);
     }

@@ -1,7 +1,6 @@
 package com.lzhphantom.auth.support.handler;
 
 import cn.hutool.core.util.StrUtil;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpHeaders;
@@ -19,7 +18,7 @@ public class SsoLogoutSuccessHandler implements LogoutSuccessHandler {
     private static final String REDIRECT_URL = "redirect_url";
 
     @Override
-    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         if (response == null) {
             return;
         }

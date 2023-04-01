@@ -1,4 +1,4 @@
-package annotation;
+package com.lzhphantom.swagger.annotation;
 
 import com.lzhphantom.swagger.config.SwaggerAutoConfiguration;
 import com.lzhphantom.swagger.support.SwaggerProperties;

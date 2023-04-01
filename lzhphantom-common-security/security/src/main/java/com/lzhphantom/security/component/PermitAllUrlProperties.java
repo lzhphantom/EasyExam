@@ -31,7 +31,7 @@ public class PermitAllUrlProperties implements InitializingBean {
     private List<String> urls = Lists.newArrayList();
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         urls.addAll(Arrays.asList(DEFAULT_IGNORE_URLS));
         RequestMappingHandlerMapping mapping = SpringUtil.getBean("requestMappingHandlerMapping");
         Map<RequestMappingInfo, HandlerMethod> map = mapping.getHandlerMethods();

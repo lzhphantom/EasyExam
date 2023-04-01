@@ -16,9 +16,9 @@
   -->
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.pig4cloud.pig.admin.mapper.SysMenuMapper">
+<mapper namespace="com.lzhphantom.userimpl.mapper.MenuMapper">
 	<!-- 通用查询映射结果 -->
-	<resultMap id="BaseResultMap" type="com.pig4cloud.pig.admin.api.entity.SysMenu">
+	<resultMap id="BaseResultMap" type="com.lzhphantom.user.login.entity.Menu">
 		<id column="menu_id" property="menuId"/>
 		<result column="name" property="name"/>
 		<result column="permission" property="permission"/>
@@ -37,24 +37,24 @@
 
 	<!--通过角色查询菜单信息-->
 	<select id="listMenusByRoleId" resultMap="BaseResultMap">
-		SELECT sys_menu.menu_id,
-			   sys_menu.name,
-			   sys_menu.permission,
-			   sys_menu.path,
-			   sys_menu.parent_id,
-			   sys_menu.icon,
-			   sys_menu.sort_order,
-			   sys_menu.keep_alive,
-			   sys_menu.type,
-			   sys_menu.del_flag,
-			   sys_menu.create_by,
-			   sys_menu.create_time,
-			   sys_menu.update_by,
-			   sys_menu.update_time
-		FROM sys_menu
-					 LEFT JOIN sys_role_menu ON sys_menu.menu_id = sys_role_menu.menu_id
-		WHERE sys_menu.del_flag = 0
-		  AND sys_role_menu.role_id = #{roleId}
-		ORDER BY sys_menu.sort_order DESC
+		SELECT menu.menu_id,
+			   menu.name,
+			   menu.permission,
+			   menu.path,
+			   menu.parent_id,
+			   menu.icon,
+			   menu.sort_order,
+			   menu.keep_alive,
+			   menu.type,
+			   menu.del_flag,
+			   menu.create_by,
+			   menu.create_time,
+			   menu.update_by,
+			   menu.update_time
+		FROM menu
+					 LEFT JOIN role_menu ON menu.menu_id = role_menu.menu_id
+		WHERE menu.del_flag = 0
+		  AND role_menu.role_id = #{roleId}
+		ORDER BY menu.sort_order DESC
 	</select>
 </mapper>

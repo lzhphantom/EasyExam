@@ -19,14 +19,14 @@
 <mapper namespace="com.pig4cloud.pig.admin.mapper.SysUserRoleMapper">
 
 	<!-- 通用查询映射结果 -->
-	<resultMap id="BaseResultMap" type="com.pig4cloud.pig.admin.api.entity.SysUserRole">
+	<resultMap id="BaseResultMap" type="com.lzhphantom.user.login.entity.UserRole">
 		<id column="user_id" property="userId"/>
 		<result column="role_id" property="roleId"/>
 	</resultMap>
 
 	<!--根据用户Id删除该用户的角色关系-->
 	<delete id="deleteByUserId">
-		DELETE FROM sys_user_role WHERE user_id = #{userId}
+		DELETE FROM user_role WHERE user_id = #{userId}
 	</delete>
 
 </mapper>

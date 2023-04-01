@@ -1,4 +1,4 @@
-package com.lzhphantom.auth.config;
+package com.lzhphantom.core.common.config;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.cache.CacheManager;
