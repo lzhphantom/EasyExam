@@ -205,7 +205,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 	public LzhphantomResult<Boolean> updateUser(UserDTO userDto) {
 		User user = new User();
 		BeanUtils.copyProperties(userDto, user);
-		user.setUpdateDt(Timestamp.valueOf(LocalDateTime.now()));
+		user.setUpdateTime(Timestamp.valueOf(LocalDateTime.now()));
 
 		if (StrUtil.isNotBlank(userDto.getPassword())) {
 			user.setPassword(ENCODER.encode(userDto.getPassword()));

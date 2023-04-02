@@ -1,7 +1,6 @@
 package com.lzhphantom.auth.support.core;
 
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.servlet.ServletUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.lzhphantom.core.common.util.LzhphantomServletUtils;
 import com.lzhphantom.core.common.util.LzhphantomWebUtils;
@@ -37,7 +36,7 @@ import java.util.function.Supplier;
 public class LzhphantomDaoAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
     /**
      * The plaintext password used to perform PasswordEncoder#matches(CharSequence,
-     * String)} on when the user is not found to avoid SEC-2056.
+     * String) on when the user is not found to avoid SEC-2056.
      */
     private static final String USER_NOT_FOUND_PASSWORD = "userNotFoundPassword";
 

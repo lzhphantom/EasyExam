@@ -1,6 +1,7 @@
 package com.lzhphantom.auth;
 
 import com.lzhphantom.core.common.config.BaseRedisConfig;
+import com.lzhphantom.core.common.config.CacheConfig;
 import com.lzhphantom.core.common.config.WebMvcConfiguration;
 import com.lzhphantom.fegin.annotation.EnableLzhphantomFeignClients;
 import org.springframework.boot.SpringApplication;
@@ -12,7 +13,7 @@ import org.springframework.context.annotation.Import;
 @EnableDiscoveryClient
 @SpringBootApplication
 @EnableLzhphantomFeignClients
-@Import({BaseRedisConfig.class, WebMvcConfiguration.class})
+@Import({BaseRedisConfig.class, WebMvcConfiguration.class, CacheConfig.class})
 public class AuthApplication {
 
     public static void main(String[] args) {

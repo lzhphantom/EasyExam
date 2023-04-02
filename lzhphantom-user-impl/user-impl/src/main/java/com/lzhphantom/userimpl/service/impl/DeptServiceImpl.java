@@ -156,7 +156,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
 					treeNode.setWeight(dept.getSortOrder());
 					// 扩展属性
 					Map<String, Object> extra = new HashMap<>(4);
-					extra.put("createTime", dept.getCreateDt());
+					extra.put("createTime", dept.getCreateTime());
 					treeNode.setExtra(extra);
 					return treeNode;
 				}).collect(Collectors.toList());

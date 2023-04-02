@@ -67,7 +67,7 @@ public class LogServiceImpl extends ServiceImpl<LogMapper, SystemLog> implements
 				.like(StrUtil.isNotBlank(Log.getRemoteAddr()), SystemLog::getRemoteAddr, Log.getRemoteAddr());
 
 		if (ArrayUtil.isNotEmpty(Log.getCreateTime())) {
-			wrapper.ge(SystemLog::getCreateDt, Log.getCreateTime()[0]).le(SystemLog::getCreateDt,
+			wrapper.ge(SystemLog::getCreateTime, Log.getCreateTime()[0]).le(SystemLog::getCreateTime,
 					Log.getCreateTime()[1]);
 		}
 

@@ -9,7 +9,6 @@ import com.lzhphantom.log.event.LzhphantomLogEvent;
 import com.lzhphantom.log.utils.LogUtils;
 import com.lzhphantom.user.login.entity.SystemLog;
 import com.lzhphantom.user.login.entity.User;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;

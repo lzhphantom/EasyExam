@@ -21,7 +21,6 @@
         <option value="$PROJECT_DIR$/lzhphantom-job/job/pom.xml" />
         <option value="$PROJECT_DIR$/lzhphantom-datasource/datasource/pom.xml" />
         <option value="$PROJECT_DIR$/lzhphantom-mybatis/mybatis/pom.xml" />
-        <option value="$PROJECT_DIR$/Exam/pom.xml" />
         <option value="$PROJECT_DIR$/lzhphantom-user-impl/user-impl/pom.xml" />
       </list>
     </option>
@@ -31,7 +30,7 @@
       </set>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_X" default="true" project-jdk-name="18" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_19" project-jdk-name="18" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>

@@ -19,11 +19,11 @@
         <module name="job" />
         <module name="user" />
         <module name="gateway" />
-        <module name="Exam" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="eureka" target="17" />
+      <module name="Exam" target="19" />
       <module name="lzhphantom-eureka" target="18" />
       <module name="lzhphantom-gateway" target="11" />
     </bytecodeTargetLevel>

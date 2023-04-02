@@ -2,7 +2,6 @@ package com.lzhphantom.security.feign;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
-import com.lzhphantom.core.common.util.LzhphantomResult;
 import com.lzhphantom.core.common.util.LzhphantomWebUtils;
 import com.lzhphantom.core.constant.SecurityConstants;
 import feign.RequestInterceptor;

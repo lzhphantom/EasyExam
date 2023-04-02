@@ -17,7 +17,7 @@
 package com.lzhphantom.userimpl.controller;
 
 import com.lzhphantom.core.common.util.LzhphantomResult;
-import com.pig4cloud.pig.admin.api.feign.RemoteTokenService;
+import com.lzhphantom.user.feign.RemoteTokenService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

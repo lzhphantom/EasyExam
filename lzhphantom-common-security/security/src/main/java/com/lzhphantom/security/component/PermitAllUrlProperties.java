@@ -27,11 +27,11 @@ import java.util.regex.Pattern;
 public class PermitAllUrlProperties implements InitializingBean {
     private static final Pattern PATTERN = Pattern.compile("\\{(.*?)\\}");
 
-    private static final String[] DEFAULT_IGNORE_URLS = new String[] { "/actuator/**", "/error", "/v3/api-docs" };
+    private static final String[] DEFAULT_IGNORE_URLS = new String[] { "/actuator/**", "/error", "/v3/api-docs","/test" };
     private List<String> urls = Lists.newArrayList();
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         urls.addAll(Arrays.asList(DEFAULT_IGNORE_URLS));
         RequestMappingHandlerMapping mapping = SpringUtil.getBean("requestMappingHandlerMapping");
         Map<RequestMappingInfo, HandlerMethod> map = mapping.getHandlerMethods();
