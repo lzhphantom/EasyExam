@@ -1,19 +1,17 @@
 spring:
-  profiles:
-    active: dev
   application:
     name: lzhphantom-@artifactId@
   config:
     import:
-      - optional:nacos:lzhphantom-application-@profiles.active@.yaml
-      - optional:nacos:${spring.application.name}-@profiles.active@.yaml
+      - optional:nacos:lzhphantom-application-@profiles.active@.yml
+      - optional:nacos:${spring.application.name}-@profiles.active@.yml
   cloud:
     nacos:
       discovery:
         server-addr: localhost:8848
       config:
         server-addr: localhost:8848
-        file-extension: yaml
+        file-extension: yml
       username: @nacos.username@
       password: @nacos.password@
 server:
