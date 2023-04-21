@@ -47,7 +47,7 @@ public class PublicParam extends BaseEntity {
      * 状态（1有效；2无效；）
      */
     @Schema(description = "标识[1有效；2无效]", example = "1")
-    private String status;
+    private String flag;
 
     /**
      * 公共参数编码

@@ -1,15 +1,18 @@
-# 配置文件加密根密码
+# 加解密根密码
 jasypt:
   encryptor:
     password: lzhphantom
     algorithm: PBEWithMD5AndDES
     iv-generator-classname: org.jasypt.iv.NoIvGenerator
+
 # Spring 相关
 spring:
   cache:
     type: redis
-  redis:
-    host: localhost
+  data:
+    redis:
+      host: localhost
+      port: 6379
   cloud:
     sentinel:
       eager: true
@@ -21,7 +24,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: '*'
+        include: \"*\"
   endpoint:
     health:
       show-details: ALWAYS
@@ -58,6 +61,16 @@ mybatis-plus:
       logic-not-delete-value: 0
   configuration:
     map-underscore-to-camel-case: true
+
+# spring security 配置
+security:
+  oauth2:
+    # 通用放行URL，服务个性化，请在对应配置文件覆盖
+    ignore:
+      urls:
+        - /v3/api-docs
+        - /actuator/**
+
 # swagger 配置
 swagger:
   enabled: true
@@ -66,5 +79,5 @@ swagger:
   token-url: ${swagger.gateway}/auth/oauth2/token
   scope: server
   services:
-    pig-upms-biz: admin
+    lzhphantom-user: admin
     pig-codegen: gen

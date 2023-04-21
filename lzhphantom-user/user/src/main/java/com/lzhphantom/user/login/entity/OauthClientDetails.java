@@ -86,5 +86,5 @@ public class OauthClientDetails extends BaseEntity {
      * 是否自动放行
      */
     @Schema(description = "是否自动放行")
-    private String autoapprove;
+    private String autoApprove;
 }

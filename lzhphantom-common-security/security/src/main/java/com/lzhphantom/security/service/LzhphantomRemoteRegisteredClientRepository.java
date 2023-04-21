@@ -93,7 +93,7 @@ public class LzhphantomRemoteRegisteredClientRepository implements RegisteredCli
                                 .orElse(refreshTokenValiditySeconds)))
                         .build())
                 .clientSettings(ClientSettings.builder()
-                        .requireAuthorizationConsent(!BooleanUtil.toBoolean(clientDetails.getAutoapprove()))
+                        .requireAuthorizationConsent(!BooleanUtil.toBoolean(clientDetails.getAutoApprove()))
                         .build())
                 .build();
     }
