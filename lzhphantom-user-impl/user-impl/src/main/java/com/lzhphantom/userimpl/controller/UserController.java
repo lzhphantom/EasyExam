@@ -20,6 +20,7 @@ import com.lzhphantom.user.vo.UserVO;
 import com.lzhphantom.userimpl.service.UserService;
 import com.pig4cloud.plugin.excel.annotation.RequestExcel;
 import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -49,6 +50,7 @@ public class UserController {
 	 * 获取当前用户全部信息
 	 * @return 用户信息
 	 */
+	@Operation(summary = "用户信息", description = "获取当前用户全部信息")
 	@GetMapping(value = { "/info" })
 	public LzhphantomResult<UserInfoVO> info() {
 		String username = SecurityUtils.getUser().getUsername();
@@ -68,6 +70,7 @@ public class UserController {
 	 * 获取指定用户全部信息
 	 * @return 用户信息
 	 */
+	@Operation(summary = "用户信息", description = "获取指定用户全部信息")
 	@Inner
 	@GetMapping("/info/{username}")
 	public LzhphantomResult<UserInfo> info(@PathVariable String username) {
@@ -105,8 +108,8 @@ public class UserController {
 	 * @return
 	 */
 	@Inner(false)
-	@GetMapping("/check/exsit")
-	public LzhphantomResult<Boolean> isExsit(UserDTO userDTO) {
+	@GetMapping("/check/exist")
+	public LzhphantomResult<Boolean> isExist(UserDTO userDTO) {
 		List<User> sysUserList = userService.list(new QueryWrapper<>(userDTO));
 		if (CollUtil.isNotEmpty(sysUserList)) {
 			return LzhphantomResult.ok(Boolean.TRUE, MsgUtils.getMessage(ErrorCodes.SYS_USER_EXISTING));

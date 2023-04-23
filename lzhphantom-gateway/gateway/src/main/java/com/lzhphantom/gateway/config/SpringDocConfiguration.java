@@ -23,8 +23,8 @@ public class SpringDocConfiguration implements InitializingBean {
     public void afterPropertiesSet() {
         Set<AbstractSwaggerUiConfigProperties.SwaggerUrl> swaggerUrlSet = Sets.newHashSet();
         AbstractSwaggerUiConfigProperties.SwaggerUrl swaggerUrl = new AbstractSwaggerUiConfigProperties.SwaggerUrl();
-        swaggerUrl.setName("admin");
-        swaggerUrl.setUrl("/admin/v3/api-docs");
+        swaggerUrl.setName("lzhphantom-user");
+        swaggerUrl.setUrl("/lzhphantom-user/v3/api-docs");
         swaggerUrlSet.add(swaggerUrl);
         swaggerUiConfigProperties.setUrls(swaggerUrlSet);
     }
