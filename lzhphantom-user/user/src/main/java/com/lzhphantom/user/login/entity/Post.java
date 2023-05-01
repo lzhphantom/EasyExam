@@ -14,7 +14,6 @@ import lombok.EqualsAndHashCode;
  * @author lzhphantom
  */
 @Data
-@TableName("LZHPHANTOM_POST")
 @EqualsAndHashCode(callSuper = true)
 @Schema(description = "岗位信息表")
 public class Post extends BaseEntity {
