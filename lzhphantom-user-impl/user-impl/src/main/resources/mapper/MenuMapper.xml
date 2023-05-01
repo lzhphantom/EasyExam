@@ -51,8 +51,8 @@
 			   menu.create_time,
 			   menu.update_by,
 			   menu.update_time
-		FROM menu
-					 LEFT JOIN role_menu ON menu.menu_id = role_menu.menu_id
+		FROM lzhphantom_menu menu
+					 LEFT JOIN lzhphantom_role_menu role_menu ON menu.menu_id = role_menu.menu_id
 		WHERE menu.del_flag = 0
 		  AND role_menu.role_id = #{roleId}
 		ORDER BY menu.sort_order DESC

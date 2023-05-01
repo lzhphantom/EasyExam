@@ -3,7 +3,7 @@ package com.lzhphantom.gateway.handler;
 import cn.hutool.core.io.FastByteArrayOutputStream;
 import com.lzhphantom.core.constant.CacheConstants;
 import com.lzhphantom.core.constant.SecurityConstants;
-import com.wf.captcha.ArithmeticCaptcha;
+import com.pig4cloud.captcha.ArithmeticCaptcha;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.core.io.ByteArrayResource;

@@ -1,43 +1,18 @@
 spring:
-  profiles:
-    active: dev
   application:
-    name: lzhphantom-gateway
+    name: lzhphantom-@artifactId@
   config:
-    import: optional:nacos:lzhphantom-gateway-dev.yml
+    import:
+      - optional:nacos:lzhphantom-application-@profiles.active@.yml
+      - optional:nacos:${spring.application.name}-@profiles.active@.yml
   cloud:
-    gateway:
-      discovery:
-        locator:
-          lower-case-service-id: true
-      routes:
-        - id: lzhphantom-user
-          uri: lb://lzhphantom-user
-#          #                uri: http://localhost:10010
-          predicates:
-#            # Path Route Predicate Factory ????? /lzhphantom/user/** ??????????? http://localhost:10010 ??uri?
-            - Path=/lzhphantom-user/**
-#              # Weight Route Predicate Factory ???????????????????????80%
-#            # ???group1?????????????
-            - Weight=group1, 8
-#          filters:
-#            - StripPrefix=2 # StripPrefix????????????1?????/lzhphantom
-            # LzhphantomRequestGlobalFilter代码中统一处理
-        - id: openapi
-          uri: lb://lzhphantom-gateway
-          predicates:
-            - Path=/v3/api-docs/**
-          filters:
-            - RewritePath=/v3/api-docs/(?<path>.*), /$\\{path}/$\\{path}/v3/api-docs
     nacos:
       discovery:
         server-addr: localhost:8848
       config:
         server-addr: localhost:8848
-        file-extension: yaml
-      username: nacos
-      password: nacos
+        file-extension: yml
+      username: @nacos.username@
+      password: @nacos.password@
 server:
-  port: 80
-
-
+  port: 9999

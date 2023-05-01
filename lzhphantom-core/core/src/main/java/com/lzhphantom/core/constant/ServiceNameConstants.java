@@ -12,5 +12,5 @@ public interface ServiceNameConstants {
     /**
      * UMPS模块
      */
-    String UMPS_SERVICE = "lzhphantom-upms-biz";
+    String UMPS_SERVICE = "lzhphantom-user";
 }

@@ -34,7 +34,7 @@ import java.util.Arrays;
 
 /**
  * @author lzhphantom
- *
+ * <p>
  * 认证服务器配置
  */
 @Configuration
@@ -45,7 +45,7 @@ public class AuthorizationServerConfiguration {
     @SneakyThrows
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
-    public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http){
+    public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) {
         OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer();
         http.apply(authorizationServerConfigurer.tokenEndpoint((tokenEndpoint) -> {// 个性化认证授权端点
                     tokenEndpoint.accessTokenRequestConverter(accessTokenRequestConverter()) // 注入自定义的授权认证Converter
@@ -70,9 +70,11 @@ public class AuthorizationServerConfiguration {
         addCustomOAuth2GrantAuthenticationProvider(http);
         return securityFilterChain;
     }
+
     /**
      * 令牌生成规则实现 </br>
      * client:username:uuid
+     *
      * @return OAuth2TokenGenerator
      */
     @Bean
@@ -85,6 +87,7 @@ public class AuthorizationServerConfiguration {
 
     /**
      * request -> xToken 注入请求转换器
+     *
      * @return DelegatingAuthenticationConverter
      */
     private AuthenticationConverter accessTokenRequestConverter() {
@@ -100,7 +103,6 @@ public class AuthorizationServerConfiguration {
      * 注入授权模式实现提供方
      * 1. 密码模式 </br>
      * 2. 短信登录 </br>
-     *
      */
     private void addCustomOAuth2GrantAuthenticationProvider(HttpSecurity http) {
         AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);

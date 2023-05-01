@@ -12,7 +12,7 @@ public interface SecurityConstants {
     /**
      * 前缀
      */
-    String PROJECT_PREFIX = "pig";
+    String PROJECT_PREFIX = "lzhphantom";
 
     /**
      * 项目的license

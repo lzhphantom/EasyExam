@@ -20,7 +20,7 @@ public enum ACTION {
     REJECT("Rejected"),
     REJECT_TO_SUBMIT("Submitted Reject"),
     REJECT_TO_APPROVE("Approved Reject"),
-    APPROVE("Approved"),
+    APPROVED("Approved"),
     PROCESS("Processing"),
     UPLOAD("Uploaded"),
     FAILED("Failed"),

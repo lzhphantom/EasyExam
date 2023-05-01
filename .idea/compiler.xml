@@ -7,10 +7,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="lzhphantom-seata" />
         <module name="fegin" />
+        <module name="lzhphantom-database" />
         <module name="auth" />
         <module name="log" />
         <module name="mybatis" />
+        <module name="lzhphantom-xss" />
         <module name="swagger" />
         <module name="security" />
         <module name="lzhphantom-gateway" />
@@ -38,7 +41,10 @@
       <module name="gateway" options="-parameters" />
       <module name="job" options="-parameters" />
       <module name="log" options="-parameters" />
+      <module name="lzhphantom-database" options="-parameters" />
       <module name="lzhphantom-eureka" options="-parameters" />
+      <module name="lzhphantom-seata" options="-parameters" />
+      <module name="lzhphantom-xss" options="-parameters" />
       <module name="mybatis" options="-parameters" />
       <module name="parent" options="" />
       <module name="security" options="-parameters" />
