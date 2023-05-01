@@ -29,7 +29,7 @@ public class LzhphantomSecurityInnerAspect implements Ordered {
             Class<?> clazz = point.getTarget().getClass();
             inner = AnnotationUtils.findAnnotation(clazz, Inner.class);
         }
-        String header = request.getHeader(SecurityConstants.FROM_IN);
+        String header = request.getHeader(SecurityConstants.FROM);
         if (inner.value() && !StrUtil.equals(SecurityConstants.FROM_IN, header)) {
             log.warn("访问接口 {} 没有权限", point.getSignature().getName());
             throw new AccessDeniedException("Access is denied");

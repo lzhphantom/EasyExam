@@ -47,7 +47,7 @@ public interface CommonConstants {
     /**
      * 后端工程名
      */
-    String BACK_END_PROJECT = "pig";
+    String BACK_END_PROJECT = "lzhphantom";
 
     /**
      * 成功标记
