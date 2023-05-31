@@ -7,8 +7,8 @@ import com.lzhphantom.core.constant.CommonConstants;
 import com.lzhphantom.core.constant.SecurityConstants;
 import com.lzhphantom.log.event.LzhphantomLogEvent;
 import com.lzhphantom.log.utils.LogUtils;
+import com.lzhphantom.security.service.LzhphantomUser;
 import com.lzhphantom.user.login.entity.SystemLog;
-import com.lzhphantom.user.login.entity.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
@@ -43,7 +43,7 @@ public class LzhphantomAuthenticationSuccessEventHandler implements Authenticati
         Map<String, Object> map = accessTokenAuthentication.getAdditionalParameters();
         if (MapUtil.isNotEmpty(map)) {
             // 发送异步日志事件
-            User userInfo = (User) map.get(SecurityConstants.DETAILS_USER);
+            LzhphantomUser userInfo = (LzhphantomUser) map.get(SecurityConstants.DETAILS_USER);
             log.info("用户：{} 登录成功", userInfo.getUsername());
             // 避免 race condition
             SecurityContext context = SecurityContextHolder.createEmptyContext();
