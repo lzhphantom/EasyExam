@@ -1,7 +1,7 @@
 package com.lzhphantom.auth.support.core;
 
 import com.lzhphantom.core.constant.SecurityConstants;
-import com.lzhphantom.user.login.entity.User;
+import com.lzhphantom.security.service.LzhphantomUser;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenClaimsContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenClaimsSet;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
@@ -23,7 +23,7 @@ public class CustomerOAuth2TokenCustomizer implements OAuth2TokenCustomizer<OAut
             return;
         }
 
-        User pigUser = (User) context.getPrincipal().getPrincipal();
+        LzhphantomUser pigUser = (LzhphantomUser) context.getPrincipal().getPrincipal();
         claims.claim(SecurityConstants.DETAILS_USER, pigUser);
     }
 }
