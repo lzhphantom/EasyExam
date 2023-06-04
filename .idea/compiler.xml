@@ -8,11 +8,13 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="lzhphantom-seata" />
+        <module name="codegen" />
         <module name="fegin" />
         <module name="lzhphantom-database" />
         <module name="auth" />
         <module name="log" />
         <module name="mybatis" />
+        <module name="monitor" />
         <module name="lzhphantom-xss" />
         <module name="swagger" />
         <module name="security" />
@@ -37,6 +39,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="Exam" options="-parameters" />
       <module name="auth" options="-parameters" />
+      <module name="codegen" options="-parameters" />
       <module name="datasource" options="-parameters" />
       <module name="eureka" options="-parameters" />
       <module name="fegin" options="-parameters" />
@@ -47,6 +50,7 @@
       <module name="lzhphantom-eureka" options="-parameters" />
       <module name="lzhphantom-seata" options="-parameters" />
       <module name="lzhphantom-xss" options="-parameters" />
+      <module name="monitor" options="-parameters" />
       <module name="mybatis" options="-parameters" />
       <module name="parent" options="" />
       <module name="seata" options="-parameters" />

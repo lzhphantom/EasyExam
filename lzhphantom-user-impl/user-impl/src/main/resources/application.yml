@@ -2,17 +2,17 @@ server:
   port: 4000
 spring:
   application:
-    name: lzhphantom-user
+    name: lzhphantom-@artifactId@
   config:
     import:
       - optional:nacos:lzhphantom-application-@profiles.active@.yml
       - optional:nacos:${spring.application.name}-@profiles.active@.yml
   cloud:
     nacos:
+      username: @nacos.username@
+      password: @nacos.password@
       discovery:
         server-addr: localhost:8848
-        username: @nacos.username@
-        password: @nacos.password@
       config:
         server-addr: localhost:8848
         file-extension: yml
