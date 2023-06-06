@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
  * @author lzhphantom
  */
 @Data
-@TableName("gen_datasource_conf")
+@TableName("lzhphantom_gen_datasource_conf")
 @EqualsAndHashCode(callSuper = true)
 public class GenDatasourceConf extends BaseEntity {
 

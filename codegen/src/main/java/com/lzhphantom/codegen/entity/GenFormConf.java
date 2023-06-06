@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
  * @author lzhphantom
  */
 @Data
-@TableName("gen_form_conf")
+@TableName("lzhphantom_gen_form_conf")
 @Schema(description = "生成记录")
 @EqualsAndHashCode(callSuper = true)
 public class GenFormConf extends BaseEntity {

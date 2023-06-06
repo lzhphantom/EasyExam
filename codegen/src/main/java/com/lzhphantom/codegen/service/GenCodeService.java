@@ -301,12 +301,12 @@ public interface GenCodeService {
      * 获取配置信息
      */
     default Configuration getConfig() {
-        try {
-            return new PropertiesConfiguration("generator.properties");
-        }
-        catch (ConfigurationException e) {
-            throw new CheckedException("获取配置文件失败，", e);
-        }
+//        try {
+            return new PropertiesConfiguration();
+//        }
+//        catch (ConfigurationException e) {
+//            throw new CheckedException("获取配置文件失败，", e);
+//        }
     }
 
     /**

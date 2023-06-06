@@ -2,7 +2,7 @@ server:
   port: 4000
 spring:
   application:
-    name: lzhphantom-@artifactId@
+    name: lzhphantom-user
   config:
     import:
       - optional:nacos:lzhphantom-application-@profiles.active@.yml

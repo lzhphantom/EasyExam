@@ -15,5 +15,12 @@
       <jdbc-url>jdbc:mysql://localhost:3306/lzhphantom_exam</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="lzhphantom_codegen@localhost" uuid="be705243-8c9f-4ff7-88ac-3f8909342646">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306/lzhphantom_codegen</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
