@@ -1,8 +1,9 @@
 server:
-  port: 4000
+  port: 5001
+
 spring:
   application:
-    name: lzhphantom-user
+    name: lzhphantom-@artifactId@
   config:
     import:
       - optional:nacos:lzhphantom-application-@profiles.active@.yml
@@ -16,3 +17,4 @@ spring:
       config:
         server-addr: localhost:8848
         file-extension: yml
+
