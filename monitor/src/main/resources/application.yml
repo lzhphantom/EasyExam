@@ -1,0 +1,20 @@
+server:
+  port: 5001
+
+spring:
+  application:
+    name: lzhphantom-@artifactId@
+  config:
+    import:
+      - optional:nacos:lzhphantom-application-@profiles.active@.yml
+      - optional:nacos:${spring.application.name}-@profiles.active@.yml
+  cloud:
+    nacos:
+      username: @nacos.username@
+      password: @nacos.password@
+      discovery:
+        server-addr: localhost:8848
+      config:
+        server-addr: localhost:8848
+        file-extension: yml
+
